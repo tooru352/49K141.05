@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Milano Coffee - Nhà cung cấp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="QL_TT_NCC.css">
+</head>
+
+<body>
+    <div class="container">
+  <!-- Header + Taskbar giống các trang khác -->
+  <div class="header">
+    <div class="logo-section">
+      <img class="logo" src="../Quan_ly_ban_hang/image/milano.jpg" alt="Logo">
+      <div class="logo-text">MILANO COFFEE</div>
+    </div>
+    <!-- Thay toàn bộ phần .user-area bằng đoạn này -->
+    <div class="user-area" onclick="window.location.href='../Thong_tin_ca_nhan/ttcanhan.html'">
+      <!-- Trong .user-area -->
+      <span class="user-id">
+        <script>
+          const user = JSON.parse(localStorage.getItem("currentUser"));
+          document.write(user ? user.username : "NV0001");
+        </script>
+      </span>
+      <img class="user-avatar" src="../Quan_ly_ban_hang/image/avatar.jpg" alt="Avatar">
+    </div>
+  </div>
+
+  <!-- TASKBAR CÓ DROPDOWN ĐẸP Y CHANG HÌNH -->
+<div class="taskbar">
+  <a href="../Quan_ly_ban_hang/index.html">Bán hàng</a>
+
+    <a href="../nhaphang/nhaphang.html" >Nhập hàng</a>
+    <a href="../QuanLyTonKHo/index.html">Tồn kho</a>
+    <div class="dropdown">
+  <a href="#" class="dropdown-toggle">Tổng kết</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../BaocaoNK/baocao.html">Báo cáo nhập hàng</a>
+    <a href="../baocaoDT/baocaoDT.html">Báo cáo doanh thu</a>
+  </div>
+</div>
+   <!-- DROPDOWN "QUẢN LÝ THÔNG TIN" – ĐẸP Y CHANG HÌNH BẠN GỬI -->
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Quản lý thông tin</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../QuanLyNhanVien/index.html">Nhân viên</a>
+    <a href="../QL_TT_NCC/QL_TT_NCC.html">Nhà cung cấp</a>
+    <a href="../QL_TT_mon/Quan_ly_mon.html">Món</a>
+    <a href="../QL_TT_NL/nguyenlieu.html">Nguyên liệu</a>
+    <a href="../Quan_ly_tai_khoan/index.html">Tài khoản</a>
+    <a href="../giaodich/giaodich.html">Lịch sử thanh toán</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Nhân viên</a>
+  <div class="dropdown-menu">
+    <!-- Quản lý lương (có submenu) -->
+    <div class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle-submenu">
+        Quản lý lương 
+        <span class="submenu-arrow">></span>
+      </a>
+      <div class="dropdown-menu submenu">
+        <a href="../ql_luong/Bảng công/bc.html">Bảng công</a>
+        <a href="../ql_luong/Bảng lương/ql_luong.html">Bảng lương</a>
+        <a href="../ql_luong/Tính lương/tluong.html">Tính lương</a>
+      </div>
+    </div>
+
+    <!-- Quản lý lịch làm việc -->
+    <a href="../ql_luong/Lịch làm/Llam.html">Quản lý lịch làm việc</a>
+  </div>
+</div>
+  </div>
+  <!-- Icon quay lại -->
+      <div class="back-to-dashboard" onclick="window.location.href='../Quan_ly_ban_hang/index.html'" title="Quay lại trang Bán hàng">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="#c8a165" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <h1 style="text-align:center;color:#c8a165;margin-bottom: 30px;margin-top:-50px;">DANH SÁCH NHÀ CUNG CẤP</h1>
+</div>          
+  <!-- Thanh tìm kiếm + Nút Thêm -->
+  <div class="top-bar">
+    <!-- NÚT BACK ĐẸP, RÕ RÀNG, NHẤN LÀ VỀ TRANG BÁN HÀNG NGAY -->
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Tìm kiếm">
+      <button id="searchBtn">Tìm kiếm</button>
+    </div>
+    <button class="btn-add" onclick="openAddModal()">+ Thêm</button>
+  </div>
+  <!-- Bảng danh sách nhà cung cấp -->
+  <div class="table-container">
+    <table id="supplierTable">
+      <thead>
+        <tr>
+          <th>Mã NCC</th>
+          <th>Tên nhà cung cấp</th>
+          <th>Số điện thoại</th>
+          <th>Email</th>
+          <th>Địa chỉ</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="supplierList">
+        <!-- Dữ liệu sẽ được JS render -->
+      </tbody>
+    </table>
+
+    <!-- Phân trang -->
+    <div class="pagination">
+      <button onclick="changePage(-1)">‹</button>
+      <span id="pageInfo">1</span>
+      <button onclick="changePage(1)">›</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Thêm/Sửa NCC -->
+<div class="modal" id="supplierModal">
+  <div class="modal-content">
+    <h2 id="modalTitle">Thêm nhà cung cấp mới</h2>
+    <form id="supplierForm">
+      <input type="hidden" id="editId">
+      <div class="form-group">
+        <label>Mã NCC</label>
+        <input type="text" id="maNCC" readonly 
+         style="background:#f8f5f0; color:#c8a165; font-weight:bold; font-size:18px; cursor:not-allowed;">
+      </div>
+      <div class="form-group">
+        <label>Tên nhà cung cấp</label>
+        <input type="text" id="tenNCC" required>
+      </div>
+      <div class="form-group">
+        <label>Số điện thoại</label>
+        <input type="text" id="sdt" required>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email">
+      </div>
+      <div class="form-group">
+        <label>Địa chỉ</label>
+        <input type="text" id="diaChi" required>
+      </div>
+      <div class="form-buttons">
+        <button type="button" onclick="saveSupplier()">Lưu</button>
+        <button type="button" onclick="closeModal()">Hủy</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="QL_TT_NCC.js"></script>
+</body>
+</html>

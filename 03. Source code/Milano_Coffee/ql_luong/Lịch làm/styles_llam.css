@@ -1,0 +1,643 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    background: #fdfcfc;
+}
+
+.container {
+    width: 1440px;
+    min-height: 1024px;
+    margin: 0 auto;
+    position: relative;
+    background: #fdfcfc;
+}
+
+/* ================= HEADER ================= */
+.header {
+    height: 145px;
+    position: relative;
+    background: #fff;
+}
+
+.logo {
+    position: absolute;
+    top: 21px;
+    left: 26px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.logo-text {
+    position: absolute;
+    top: 24px;
+    left: 105px;
+    font-family: "Jacques Francois Shadow", cursive;
+    font-size: 35px;
+    color: #c8a165;
+}
+
+.user-area {
+    position: absolute;
+    top: 21px;
+    right: 36px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.user-id {
+    font-family: "Inder", sans-serif;
+    color: #c8a165;
+    font-size: 16px;
+}
+
+/* ================= TASKBAR - DROPDOWN SIÊU CAO (LUÔN TRÊN CÙNG) ================= */
+.taskbar {
+    position: absolute;
+    top: 99px;
+    left: 64px;
+    display: flex;
+    gap: 60px;
+    font-weight: 600;
+    font-size: 24px;
+    z-index: 99999;
+    /* Cao hơn tất cả */
+}
+
+.taskbar a {
+    text-decoration: none;
+    color: #000;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.taskbar a:hover {
+    color: #c8a165;
+}
+
+.taskbar a::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: #c8a165;
+    transition: width 0.3s ease;
+}
+
+.taskbar a:hover::after {
+    width: 100%;
+}
+
+/* Dropdown Nhân viên */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 999999;
+}
+
+.dropdown-toggle {
+    color: #000;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-toggle:hover {
+    color: #c8a165;
+}
+
+.dropdown-toggle::after {
+    content: " ▼";
+    font-size: 14px;
+    margin-left: 4px;
+    transition: transform 0.3s ease;
+}
+
+.dropdown:hover>.dropdown-toggle::after {
+    transform: rotate(180deg);
+}
+
+/* Menu chính & submenu */
+.dropdown-menu,
+.dropdown-submenu .submenu {
+    display: none;
+    position: absolute;
+    background: white;
+    min-width: 240px;
+    border-radius: 15px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    padding: 12px 0;
+    margin-top: 8px;
+}
+
+.dropdown:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu a,
+.dropdown-submenu>a {
+    display: block;
+    padding: 14px 28px;
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.dropdown-menu a:hover,
+.dropdown-submenu>a:hover {
+    background: #c8a165;
+    color: white;
+    padding-left: 38px;
+}
+
+/* Submenu bên phải */
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-toggle-submenu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 14px 28px !important;
+    color: #333;
+}
+
+.submenu-arrow {
+    font-size: 16px;
+    color: #c8a165;
+    margin-left: 20px;
+}
+
+.dropdown-submenu:hover>.submenu {
+    display: block;
+    left: 100%;
+    top: 0;
+    min-width: 220px;
+    margin-left: -70px;
+    z-index: 999999 !important;
+}
+
+/* Mũi tên nhỏ dưới menu */
+.dropdown::before {
+    content: '';
+    position: absolute;
+    top: 38px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 999999;
+}
+
+.dropdown:hover::before {
+    opacity: 1;
+}
+
+/* ================= MAIN CONTENT ================= */
+.main {
+    padding: 40px 60px;
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.page-header .left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.back-btn,
+.back-icon {
+    font-size: 36px;
+    cursor: pointer;
+    color: #c8a165;
+    transition: all 0.3s;
+}
+
+.back-icon:hover {
+    background: rgba(200, 161, 101, 0.15);
+    transform: scale(1.1);
+    border-radius: 50%;
+}
+
+.page-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+}
+
+.export-btn {
+    font-size: 32px;
+    cursor: pointer;
+    color: #c8a165;
+    transition: all 0.3s;
+}
+
+.export-btn:hover {
+    transform: scale(1.1);
+}
+
+/* ================= TABLE ================= */
+.table-container {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 100;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #f8f5f0;
+    padding: 20px 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 18px;
+    color: #555;
+}
+
+td {
+    padding: 18px 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 17px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:nth-child(even) {
+    background-color: #fdfaf7;
+}
+
+.manv {
+    color: #c8a165;
+    font-weight: 600;
+}
+
+.bonus {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.penalty {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.edit-btn {
+    font-size: 32px;
+    cursor: pointer;
+    color: #c8a165;
+    transition: all 0.3s;
+    position: relative;
+    z-index: 1;
+}
+
+.edit-btn:hover {
+    transform: scale(1.15);
+    color: #a67c52;
+}
+
+.edit-btn.editing {
+    color: #28a745;
+}
+
+/* Ô nhập khi edit */
+td.editable input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #c8a165;
+    border-radius: 8px;
+    background: #fff9f0;
+    font-size: 16px;
+    outline: none;
+    font-family: "Montserrat", sans-serif;
+}
+
+td.editable input:focus {
+    border-color: #a67c52;
+    background: white;
+    box-shadow: 0 0 8px rgba(200, 161, 101, 0.3);
+}
+
+/* Nút lưu dưới bảng */
+.save-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding: 20px 25px;
+    background: #f9f5f0;
+    border-top: 3px solid #c8a165;
+}
+
+.btn-save {
+    padding: 14px 32px;
+    border: none;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #c8a165;
+    color: white;
+    transition: all 0.3s;
+}
+
+.btn-save:hover {
+    background: #b8860b;
+    transform: translateY(-2px);
+}
+
+/* ================= LỊCH LÀM VIỆC & DATE PICKER ================= */
+.schedule-container {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 100;
+}
+
+.schedule-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f5f0e8;
+    border-radius: 12px;
+}
+
+.schedule-header h2 {
+    color: #c8a165;
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+#dateRange {
+    font-weight: bold;
+    color: #8B4513;
+    font-size: 18px;
+}
+
+.shift-cell {
+    text-align: center;
+    font-weight: bold;
+    min-width: 60px;
+    padding: 12px 8px !important;
+}
+
+.shift-cell:empty::before {
+    content: "-";
+    color: #ccc;
+}
+
+.shift.s {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.shift.c {
+    background: #fff3e0;
+    color: #ef6c00;
+}
+
+.shift.t {
+    background: #fce4ec;
+    color: #c2185b;
+}
+
+.legend {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f5f0;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.legend .shift {
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.action-buttons.hidden {
+    display: none !important;
+}
+
+.btn-create {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #c8a165;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-edit {
+    background: transparent;
+    border: 2px solid #c8a165;
+    color: #c8a165;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Nút lưu nổi */
+.btn-save-float,
+.btn-save-bottom {
+    background: #c8a165;
+    color: white;
+    border: none;
+    padding: 18px 40px;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(200, 161, 101, 0.4);
+    transition: all 0.3s;
+}
+
+.btn-save-float:hover,
+.btn-save-bottom:hover {
+    background: #b8860b;
+    transform: translateY(-4px);
+}
+
+/* ================= CUSTOM DATE PICKER (KHÔNG ĐÈ DROPDOWN) ================= */
+#datePicker,
+.custom-date-picker,
+.date-picker-modal,
+.calendar-modal {
+    z-index: 9000 !important;
+}
+
+#datePicker.active,
+.custom-date-picker.active {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Modal xác nhận lưu */
+.confirm-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.confirm-modal.active {
+    display: flex;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    border: 3px solid #c8a165;
+    animation: popup 0.4s ease-out;
+    position: relative;
+}
+
+@keyframes popup {
+    from {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.check-icon {
+    width: 100px;
+    height: 100px;
+    background: #c8a165;
+    color: white;
+    font-size: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+    box-shadow: 0 10px 20px rgba(200, 161, 101, 0.4);
+}
+
+.confirm-btn {
+    background: #c8a165;
+    color: white;
+    border: none;
+    padding: 16px 60px;
+    border-radius: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.confirm-btn:hover {
+    background: #b8860b;
+    transform: translateY(-3px);
+}
+
+/* Icon lịch nhỏ */
+#miniCalendarTrigger,
+.date-display {
+    cursor: pointer;
+    transition: all 0.3s;
+    z-index: 1;
+}
+
+#miniCalendarTrigger:hover,
+.date-display:hover {
+    background: #e8e0d8;
+    transform: scale(1.05);
+}
+
+/* ================= ĐẢM BẢO KHÔNG CÓ GÌ ĐÈ TASKBAR DROPDOWN ================= */
+.custom-date-picker,
+#datePicker,
+.date-picker-modal,
+.confirm-modal,
+.calendar-modal,
+.table-container,
+.schedule-container,
+.edit-btn,
+.back-icon,
+.btn-create,
+.btn-edit {
+    z-index: auto !important;
+}
+
+/* Chỉ các modal thật sự mới được cao hơn, nhưng vẫn dưới dropdown */
+.confirm-modal.active,
+.date-picker-modal,
+.calendar-modal {
+    z-index: 10000 !important;
+}
+
+#datePicker.active,
+.custom-date-picker.active {
+    z-index: 9000 !important;
+}

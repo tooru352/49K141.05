@@ -1,0 +1,378 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    background: #fdfcfc;
+}
+
+.container {
+    width: 1440px;
+    min-height: 1024px;
+    margin: 0 auto;
+    position: relative;
+    background: #fdfcfc;
+}
+
+/* Header */
+.header {
+    height: 145px;
+    position: relative;
+    background: #fff;
+}
+
+.logo {
+    position: absolute;
+    top: 21px;
+    left: 26px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.logo-text {
+    position: absolute;
+    top: 24px;
+    left: 105px;
+    font-family: "Jacques Francois Shadow", cursive;
+    font-size: 35px;
+    color: #c8a165;
+}
+
+.user-area {
+    position: absolute;
+    top: 21px;
+    right: 36px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.user-id {
+    font-family: "Inder", sans-serif;
+    color: #c8a165;
+    font-size: 16px;
+}
+
+
+/* Taskbar giống hệt trang bán hàng */
+.taskbar {
+    position: absolute;
+    top: 99px;
+    left: 64px;
+    display: flex;
+    gap: 60px;
+    font-weight: 600;
+    font-size: 24px;
+    z-index: 10;
+}
+
+.taskbar a {
+    text-decoration: none;
+    color: #000;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.taskbar a:hover {
+    color: #c8a165;
+}
+
+.back-to-dashboard {
+    margin-top: 20px;
+    color: #c8a165;
+    cursor: pointer;
+}
+
+.back-to-dashboard svg {
+    width: 100px !important;
+    /* ICON MŨI TÊN TO GẤP ĐÔI */
+    height: 50px !important;
+}
+
+.taskbar a::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: #c8a165;
+    transition: width 0.3s ease;
+}
+
+/* DROPDOWN NHÂN VIÊN – 2 LỚP, ĐẸP NHƯ HÌNH */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    color: #000;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+}
+
+.dropdown-toggle:hover {
+    color: #c8a165;
+}
+
+.dropdown-toggle::after {
+    content: " ▼";
+    font-size: 14px;
+    transition: transform 0.3s ease;
+}
+
+.dropdown:hover>.dropdown-toggle::after {
+    transform: rotate(180deg);
+}
+
+/* Menu chính */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    min-width: 240px;
+    border-radius: 15px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    padding: 12px 0;
+    z-index: 1000;
+    margin-top: 8px;
+}
+
+.dropdown:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu a,
+.dropdown-submenu>a {
+    display: block;
+    padding: 14px 28px;
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.dropdown-menu a:hover,
+.dropdown-submenu>a:hover {
+    background: #c8a165;
+    color: white;
+    padding-left: 38px;
+}
+
+/* SUBMENU – HIỆN BÊN PHẢI */
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-toggle-submenu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 14px 28px !important;
+    color: #333;
+}
+
+.submenu-arrow {
+    font-size: 16px;
+    color: #c8a165;
+    margin-left: 20px;
+}
+
+.dropdown-submenu:hover>.submenu {
+    display: block;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background: white;
+    min-width: 220px;
+    border-radius: 15px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    padding: 12px 0;
+    margin-left: 12px;
+}
+
+/* Mũi tên nhỏ dưới menu chính */
+.dropdown::before {
+    content: '';
+    position: absolute;
+    top: 38px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1001;
+}
+
+.dropdown:hover::before {
+    opacity: 1;
+}
+
+.taskbar a:hover::after {
+    width: 100%;
+}
+
+/* Nội dung chính */
+.main-content {
+    margin: 0 60px 60px;
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Thông tin phiếu - đẹp như hình */
+.phieu-info {
+    background: #f9f5f0;
+    padding: 25px 35px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    font-size: 17px;
+    border: 1px solid #e8e0d8;
+}
+
+.info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.info-group strong {
+    color: #777;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.info-group span {
+    font-weight: 700;
+    color: #333;
+    font-size: 18px;
+}
+
+/* Bảng chi tiết */
+.table-container {
+    overflow-x: auto;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+.detail-table th {
+    background: #f0e6d9;
+    color: #8b6f47;
+    font-weight: 700;
+    padding: 18px 16px;
+    text-align: left;
+    border-bottom: 3px solid #c8a165;
+}
+
+.detail-table td {
+    padding: 18px 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-table tbody tr:hover {
+    background: #fdf8f0;
+}
+
+.detail-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Tổng kết */
+.summary {
+    text-align: right;
+    margin-top: 40px;
+    padding: 25px 35px;
+    background: #f9f5f0;
+    border-radius: 16px;
+    font-size: 20px;
+    border: 1px solid #e8e0d8;
+}
+
+.summary .thue {
+    color: #666;
+    margin-bottom: 12px;
+    font-size: 18px;
+}
+
+.summary .total-line {
+    font-weight: 800;
+    font-size: 32px;
+    color: #5d4037;
+    letter-spacing: 1px;
+}
+
+/* Phân trang */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 30px 0;
+}
+
+.pagination button {
+    width: 44px;
+    height: 44px;
+    border: 2px solid #ddd;
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.pagination button:hover:not(:disabled) {
+    background: #c8a165;
+    color: white;
+    border-color: #c8a165;
+}
+
+.pagination .active {
+    background: #c8a165;
+    color: white;
+    border-color: #c8a165;
+    font-weight: bold;
+}
+
+.pagination .dots {
+    border: none;
+    background: transparent;
+    cursor: default;
+    font-size: 18px;
+}

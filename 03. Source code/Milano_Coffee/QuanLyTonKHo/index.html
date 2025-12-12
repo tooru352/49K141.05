@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milano Coffee - Tồn kho</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Jacques+Francois+Shadow&family=Inder&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+  <!-- Header + Taskbar giống các trang khác -->
+  <div class="header">
+    <div class="logo-section">
+      <img class="logo" src="../Quan_ly_ban_hang/image/milano.jpg" alt="Logo">
+      <div class="logo-text">MILANO COFFEE</div>
+    </div>
+    <!-- Thay toàn bộ phần .user-area bằng đoạn này -->
+    <div class="user-area" onclick="window.location.href='../Thong_tin_ca_nhan/ttcanhan.html'">
+      <!-- Trong .user-area -->
+      <span class="user-id">
+        <script>
+          const user = JSON.parse(localStorage.getItem("currentUser"));
+          document.write(user ? user.username : "NV0001");
+        </script>
+      </span>
+      <img class="user-avatar" src="../Quan_ly_ban_hang/image/avatar.jpg" alt="Avatar">
+    </div>
+  </div>
+
+  <!-- TASKBAR CÓ DROPDOWN ĐẸP Y CHANG HÌNH -->
+<div class="taskbar">
+  <a href="../Quan_ly_ban_hang/index.html">Bán hàng</a>
+
+    <a href="../nhaphang/nhaphang.html" >Nhập hàng</a>
+    <a href="../QuanLyTonKHo/index.html">Tồn kho</a>
+    <div class="dropdown">
+  <a href="#" class="dropdown-toggle">Tổng kết</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../BaocaoNK/baocao.html">Báo cáo nhập hàng</a>
+    <a href="../baocaoDT/baocaoDT.html">Báo cáo doanh thu</a>
+  </div>
+</div>
+   <!-- DROPDOWN "QUẢN LÝ THÔNG TIN" – ĐẸP Y CHANG HÌNH BẠN GỬI -->
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Quản lý thông tin</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../QuanLyNhanVien/index.html">Nhân viên</a>
+    <a href="../QL_TT_NCC/QL_TT_NCC.html">Nhà cung cấp</a>
+    <a href="../QL_TT_mon/Quan_ly_mon.html">Món</a>
+    <a href="../QL_TT_NL/nguyenlieu.html">Nguyên liệu</a>
+    <a href="../Quan_ly_tai_khoan/index.html">Tài khoản</a>
+    <a href="../giaodich/giaodich.html">Lịch sử thanh toán</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Nhân viên</a>
+  <div class="dropdown-menu">
+    <!-- Quản lý lương (có submenu) -->
+    <div class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle-submenu">
+        Quản lý lương 
+        <span class="submenu-arrow">></span>
+      </a>
+      <div class="dropdown-menu submenu">
+        <a href="../ql_luong/Bảng công/bc.html">Bảng công</a>
+        <a href="../ql_luong/Bảng lương/ql_luong.html">Bảng lương</a>
+        <a href="../ql_luong/Tính lương/tluong.html">Tính lương</a>
+      </div>
+    </div>
+
+    <!-- Quản lý lịch làm việc -->
+    <a href="../ql_luong/Lịch làm/Llam.html">Quản lý lịch làm việc</a>
+  </div>
+</div>
+  </div>
+  <div class="back-to-dashboard" onclick="window.location.href='../Quan_ly_ban_hang/index.html'" title="Quay lại trang Bán hàng">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="#c8a165" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <h1 style="text-align:center;color:#c8a165;margin-bottom: 30px;margin-top:-50px;">QUẢN LÝ TỒN KHO</h1>
+</div>
+
+        <!-- MAIN CONTENT giống layout Nhân viên -->
+        <main class="main-content">
+            <section class="inventory-page"> <!-- Thay employee-page bằng inventory-page -->
+                <div class="page-header">
+                    <div class="toolbar">
+                <div class="left-tools">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm phiếu nhập">
+                    </div>
+
+                    <!-- Custom Date Picker -->
+                    <div class="custom-date-picker">
+                        <input type="text" id="dateInput"    class="date-filter" readonly placeholder="Chọn khoảng thời gian">
+                        <div class="datepicker-dropdown">
+                            <div class="calendars">
+                                <!-- Tháng trái -->
+                                <div class="calendar">
+                                    <div class="calendar-header">
+                                        <button class="prev-month" type="button">←</button>
+                                        <span class="month-title">Tháng 12 2025</span>
+                                        <button class="next-month" type="button">→</button>
+                                    </div>
+                                    <div class="weekdays">
+                                        <div>T2</div>
+                                        <div>T3</div>
+                                        <div>T4</div>
+                                        <div>T5</div>
+                                        <div>T6</div>
+                                        <div>T7</div>
+                                        <div>CN</div>
+                                    </div>
+                                    <div class="days" id="days-left"></div>
+                                </div>
+
+                                <!-- Tháng phải -->
+                                <div class="calendar">
+                                    <div class="calendar-header">
+                                        <button class="prev-month" type="button">←</button>
+                                        <span class="month-title">Tháng 1 2026</span>
+                                        <button class="next-month" type="button">→</button>
+                                    </div>
+                                    <div class="weekdays">
+                                        <div>T2</div>
+                                        <div>T3</div>
+                                        <div>T4</div>
+                                        <div>T5</div>
+                                        <div>T6</div>
+                                        <div>T7</div>
+                                        <div>CN</div>
+                                    </div>
+                                    <div class="days" id="days-right"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-apply" id="btnApply">Áp dụng</button>
+                    <button class="btn-add" onclick="openAddModal()">
+                        <span class="plus">+</span> Tạo phiếu <!-- Thay Thêm bằng Tạo phiếu -->
+                    </button>
+                </div>
+            </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="inventory-table"> <!-- Thay employee-table bằng inventory-table -->
+                        <thead>
+                            <tr>
+                                <th>Mã phiếu xuất</th>
+                                <th>Nhân viên</th>
+                                <th>Thời gian</th>
+                                <th>Tổng tiền</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryList"> <!-- Thay employeeList bằng inventoryList -->
+                            <!-- JS sẽ fill dữ liệu giống hình -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination"> <!-- Giống hệt pagination trong index.html -->
+                    <button class="page-arrow prev disabled">
+                        <span>&#x2039;</span> <!-- ‹ -->
+                    </button>
+                    <button class="page-number active">1</button>
+                    <button class="page-number">2</button>
+                    <button class="page-number">3</button>
+                    <span class="dots">...</span>
+                    <button class="page-arrow next">
+                        <span>&#x203A;</span> <!-- › -->
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- POPUP THÊM (tương tự addPopup trong index.html, điều chỉnh cho phiếu xuất) -->
+    <div id="addPopup" class="popup-overlay" style="display:none;">
+        <div class="add-popup-card">
+            <button type="button" id="btnCloseAdd" class="back-btn">←</button>
+            <h1 class="popup-title">Thêm phiếu xuất</h1> <!-- Thay Thêm nhân viên -->
+            <form id="addForm" class="info-form"> <!-- Thay addEmployeeForm bằng addForm -->
+                <!-- Các field điều chỉnh cho phiếu xuất -->
+                <div class="form-row">
+                    <label for="addMaPhieu">Mã phiếu xuất:</label>
+                    <input type="text" id="addMaPhieu" required />
+                </div>
+                <div class="form-row">
+                    <label for="addNhanVien">Nhân viên:</label>
+                    <input type="text" id="addNhanVien" required />
+                </div>
+                <div class="form-row">
+                    <label for="addThoiGian">Thời gian:</label>
+                    <input type="text" id="addThoiGian" required />
+                </div>
+                <div class="form-row">
+                    <label for="addTongTien">Tổng tiền:</label>
+                    <input type="text" id="addTongTien" required />
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-save">Thêm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Các popup khác tương tự index.html: edit, notify, delete... (copy từ index.html và điều chỉnh ID/class cho tồn kho nếu cần) -->
+    <!-- ... (bỏ qua để ngắn gọn, nhưng bạn copy từ index.html và thay tên tương ứng: editPopup -> editInventoryPopup, v.v.) -->
+
+
+    <!-- POPUP CHI TIẾT PHIẾU XUẤT -->
+    <div id="viewPopup" class="popup-overlay" style="display:none;">
+        <div class="view-popup-card">
+            <!-- nút quay lại -->
+            <button type="button" class="back-btn" onclick="closeViewModal()">←</button>
+
+            <h2 class="view-title">CHI TIẾT PHIẾU XUẤT KHO</h2>
+
+            <!-- thông tin chung -->
+            <div class="view-info-row">
+                <div class="view-info-col">
+                    <span class="view-label">Mã phiếu</span>
+                    <span class="view-value" id="detailMaPhieu"></span>
+                </div>
+                <div class="view-info-col">
+                    <span class="view-label">Thời gian tạo</span>
+                    <span class="view-value" id="detailThoiGian"></span>
+                </div>
+                <div class="view-info-col">
+                    <span class="view-label">Nhân viên</span>
+                    <span class="view-value" id="detailNhanVien"></span>
+                </div>
+            </div>
+
+            <!-- bảng chi tiết -->
+            <div class="view-table-wrapper">
+                <table class="view-table">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Đơn giá</th>
+                            <th>ĐVT</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailItemsBody">
+                        <!-- JS fill -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- POPUP TẠO PHIẾU XUẤT KHO -->
+    <div id="createPopup" class="popup-overlay" style="display:none;">
+        <div class="create-popup-card">
+            <button type="button" class="back-btn" onclick="closeCreatePopup()">←</button>
+
+            <h2 class="create-title">PHIẾU XUẤT KHO</h2>
+
+            <!-- Thông tin chung -->
+            <div class="create-info-row">
+                <div class="create-info-col">
+                    <span class="create-label">Mã phiếu</span>
+                    <input type="text" id="createMaPhieu" class="create-input readonly" readonly>
+                </div>
+                <div class="create-info-col">
+                    <span class="create-label">Thời gian tạo</span>
+                    <input type="text" id="createThoiGian" class="create-input readonly" readonly>
+                </div>
+                <div class="create-info-col">
+                    <span class="create-label">Người tạo</span>
+                    <input type="text" id="createNguoiTao" class="create-input">
+                </div>
+            </div>
+
+            <!-- Bảng chi tiết -->
+            <div class="create-table-wrapper">
+                <table class="create-table">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Đơn giá</th>
+                            <th>ĐVT</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                            <th style="width:70px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="createItemsBody">
+                        <!-- JS sẽ thêm dòng -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Nút Lưu -->
+            <div class="create-actions">
+                <button type="button" class="btn-save-slip" onclick="saveSlip()">Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP CẬP NHẬT PHIẾU XUẤT KHO -->
+    <div id="editPopup" class="popup-overlay" style="display:none;">
+        <div class="create-popup-card"> <!-- dùng lại style create-popup-card -->
+            <button type="button" class="back-btn" onclick="closeEditPopup()">←</button>
+
+            <h2 class="create-title">CẬP NHẬT PHIẾU XUẤT KHO</h2>
+
+            <!-- Thông tin chung -->
+            <div class="create-info-row">
+                <div class="create-info-col">
+                    <span class="create-label">Mã phiếu</span>
+                    <input type="text" id="editMaPhieu" class="create-input readonly" readonly>
+                </div>
+                <div class="create-info-col">
+                    <span class="create-label">Thời gian tạo</span>
+                    <input type="text" id="editThoiGian" class="create-input readonly" readonly>
+                </div>
+                <div class="create-info-col1">
+                    <span class="create-label">Nhân viên</span>
+                    <input type="text" id="editNguoiTao" class="create-input readonly" >
+                </div>
+            </div>
+
+            <!-- Bảng chi tiết -->
+            <div class="create-table-wrapper">
+                <table class="create-table">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Đơn giá</th>
+                            <th>ĐVT</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody id="editItemsBody">
+                        <!-- JS fill -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Nút Lưu -->
+            <div class="create-actions">
+                <button type="button" class="btn-save-slip" onclick="saveEditedSlip()">Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP ĐÃ TẠO THÀNH CÔNG -->
+    <div id="createSuccessOverlay" class="popup-overlay" style="display:none;">
+        <div class="create-success-card">
+            <div class="create-success-icon">
+                <span>✓</span>
+            </div>
+            <h2 class="create-success-title">ĐÃ TẠO THÀNH CÔNG</h2>
+            <button class="create-success-btn" onclick="closeCreateSuccess()">Đóng</button>
+        </div>
+    </div>
+    <!-- POPUP XÁC NHẬN XÓA -->
+    <div id="deleteOverlay" class="popup-overlay" style="display:none;">
+        <div class="delete-card">
+
+            <h2 class="delete-title">Xác nhận xóa phiếu</h2>
+
+            <div class="delete-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 6H21" />
+                    <path d="M9 4H15C15.6 4 16 4.4 16 5V6H8V5C8 4.4 8.4 4 9 4Z" />
+                    <path d="M6 6V19C6 19.6 6.4 20 7 20H17C17.6 20 18 19.6 18 19V6" />
+                    <path d="M10 10V17" />
+                    <path d="M14 10V17" />
+                </svg>
+            </div>
+
+            <div class="delete-actions">
+                <button class="btn-cancel" onclick="closeDeletePopup()">Hủy</button>
+                <button class="btn-confirm" onclick="confirmDeleteSlip()">Xác nhận</button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- POPUP XÓA THÀNH CÔNG -->
+    <div id="deleteSuccessOverlay" class="popup-overlay" style="display:none;">
+        <div class="delete-success-card">
+
+            <div class="delete-success-icon">
+                ✓
+            </div>
+
+            <h2 class="delete-success-title">ĐÃ XÓA THÀNH CÔNG</h2>
+
+            <button class="delete-success-btn" onclick="closeDeleteSuccess()">Đóng</button>
+
+        </div>
+    </div>
+
+
+    <script src="scripts.js"></script>
+    <script>
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,828 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    background: #fdfcfc;
+}
+
+.container {
+    width: 1440px;
+    min-height: 1024px;
+    margin: 0 auto;
+    position: relative;
+    background: #fdfcfc;
+}
+
+/* Header */
+.header {
+    height: 145px;
+    position: relative;
+    background: #fff;
+}
+
+.logo {
+    position: absolute;
+    top: 21px;
+    left: 26px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.logo-text {
+    position: absolute;
+    top: 24px;
+    left: 105px;
+    font-family: "Jacques Francois Shadow", cursive;
+    font-size: 35px;
+    color: #c8a165;
+}
+
+.user-area {
+    position: absolute;
+    top: 21px;
+    right: 36px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.user-id {
+    font-family: "Inder", sans-serif;
+    color: #c8a165;
+    font-size: 16px;
+}
+
+
+/* Taskbar giống hệt trang bán hàng */
+.taskbar {
+    position: absolute;
+    top: 99px;
+    left: 64px;
+    display: flex;
+    gap: 60px;
+    font-weight: 600;
+    font-size: 24px;
+    z-index: 10;
+}
+
+.taskbar a {
+    text-decoration: none;
+    color: #000;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.taskbar a:hover {
+    color: #c8a165;
+}
+
+.back-to-dashboard {
+    margin-top: 20px;
+    color: #c8a165;
+    cursor: pointer;
+}
+
+.back-to-dashboard svg {
+    width: 100px !important;
+    /* ICON MŨI TÊN TO GẤP ĐÔI */
+    height: 50px !important;
+}
+
+.taskbar a::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: #c8a165;
+    transition: width 0.3s ease;
+}
+
+/* DROPDOWN NHÂN VIÊN – 2 LỚP, ĐẸP NHƯ HÌNH */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    color: #000;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+}
+
+.dropdown-toggle:hover {
+    color: #c8a165;
+}
+
+.dropdown-toggle::after {
+    content: " ▼";
+    font-size: 14px;
+    transition: transform 0.3s ease;
+}
+
+.dropdown:hover>.dropdown-toggle::after {
+    transform: rotate(180deg);
+}
+
+/* Menu chính */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    min-width: 240px;
+    border-radius: 15px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    padding: 12px 0;
+    z-index: 1000;
+    margin-top: 8px;
+}
+
+.dropdown:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu a,
+.dropdown-submenu>a {
+    display: block;
+    padding: 14px 28px;
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.dropdown-menu a:hover,
+.dropdown-submenu>a:hover {
+    background: #c8a165;
+    color: white;
+    padding-left: 38px;
+}
+
+/* SUBMENU – HIỆN BÊN PHẢI */
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-toggle-submenu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 14px 28px !important;
+    color: #333;
+}
+
+.submenu-arrow {
+    font-size: 16px;
+    color: #c8a165;
+    margin-left: 20px;
+}
+
+.dropdown-submenu:hover>.submenu {
+    display: block;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background: white;
+    min-width: 220px;
+    border-radius: 15px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    padding: 12px 0;
+    margin-left: 12px;
+}
+
+/* Mũi tên nhỏ dưới menu chính */
+.dropdown::before {
+    content: '';
+    position: absolute;
+    top: 38px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1001;
+}
+
+.dropdown:hover::before {
+    opacity: 1;
+}
+
+.taskbar a:hover::after {
+    width: 100%;
+}
+
+/* Main */
+.main {
+    padding: 30px;
+}
+
+/* Toolbar */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.left-tools {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search-box input {
+    padding: 12px 40px 12px 15px;
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.custom-date-picker {
+    position: relative;
+}
+
+.custom-date-picker input {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 180px;
+    cursor: pointer;
+    background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23666" viewBox="0 0 16 16"><path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm9.5 7h-9v6h9V7z"/></svg>') no-repeat 95% center;
+}
+
+.btn-apply {
+    padding: 12px 25px;
+    background: #d4a372;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Table */
+.table-container {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f9f5f0;
+}
+
+th,
+td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95em;
+}
+
+td {
+    font-size: 0.95em;
+}
+
+.actions {
+    text-align: center;
+}
+
+.actions button {
+    background: none;
+    border: none;
+    font-size: 1.3em;
+    cursor: pointer;
+    margin: 0 5px;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+
+.actions button:hover {
+    background: #f0f0f0;
+}
+
+.actions .view-btn {
+    color: #666;
+}
+
+.actions .edit-btn {
+    color: #4CAF50;
+}
+
+.actions .delete-btn {
+    color: #f44336;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 1em;
+}
+
+.pagination button {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    border-radius: 5px;
+    min-width: 40px;
+}
+
+.pagination button.active {
+    background: #d4a372;
+    color: white;
+    border-color: #d4a372;
+}
+
+.pagination button:hover:not(.active) {
+    background: #f0f0f0;
+}
+
+/* Custom Date Picker */
+.custom-date-picker {
+    position: relative;
+}
+
+.date-filter {
+    width: 280px;
+    padding: 12px 40px 12px 44px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="%23999" viewBox="0 0 16 16"><path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm9 4H4v1h8V4z"/></svg>') no-repeat left 16px center;
+    background-size: 18px;
+    cursor: pointer;
+}
+
+.datepicker-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 640px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+}
+
+.custom-date-picker.active .datepicker-dropdown {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.calendars {
+    display: flex;
+    gap: 20px;
+}
+
+.calendar {
+    flex: 1;
+    min-width: 280px;
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding: 0 8px;
+}
+
+.calendar-header button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 4px 8px;
+    color: #666;
+    transition: color 0.2s;
+    line-height: 1;
+}
+
+.calendar-header button:hover {
+    color: #c8a165;
+}
+
+.month-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+}
+
+.weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-weight: 600;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 8px;
+    text-align: center;
+    padding: 8px 0;
+}
+
+.weekdays>div {
+    padding: 4px;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.day {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s;
+    user-select: none;
+    margin: 0 auto;
+}
+
+.day:hover:not(.empty) {
+    background: #f5f5f5;
+}
+
+.day.empty {
+    cursor: default;
+    pointer-events: none;
+}
+
+.day.today {
+    background: #fff4e6;
+    color: #c8a165;
+    font-weight: 600;
+}
+
+.day.selected {
+    background: #c8a165 !important;
+    color: white !important;
+    font-weight: 600;
+}
+
+.day.in-range {
+    background: #fdf4e6 !important;
+    color: #c28b00;
+}
+
+.day.hover-range {
+    background: #fdf4e6 !important;
+}
+
+.day.hover-start,
+.day.hover-end {
+    background: #e6b587 !important;
+    color: white;
+}
+
+/* ==================== POPUP CHI TIẾT HÓA ĐƠN ==================== */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-overlay.show {
+    display: flex;
+}
+
+.popup-detail {
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.popup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+
+    color: black;
+}
+
+.popup-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    flex: 1;
+    text-align: center;
+}
+
+.btn-back,
+.btn-close {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.btn-back:hover,
+.btn-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.popup-info {
+    padding: 16px 24px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #555;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.info-separator {
+    color: #ccc;
+}
+
+.popup-table {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 24px;
+}
+
+.popup-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+.popup-table thead {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+}
+
+.popup-table th {
+    padding: 12px 8px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    border-bottom: 2px solid #e0e0e0;
+    background: #fafafa;
+}
+
+.popup-table th:first-child {
+    width: 50px;
+    text-align: center;
+}
+
+.popup-table th:nth-child(3),
+.popup-table th:nth-child(4),
+.popup-table th:nth-child(5) {
+    text-align: right;
+}
+
+.popup-table td {
+    padding: 14px 8px;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.popup-table td:first-child {
+    text-align: center;
+    font-weight: 600;
+    color: #666;
+}
+
+.popup-table td:nth-child(3),
+.popup-table td:nth-child(4),
+.popup-table td:nth-child(5) {
+    text-align: right;
+}
+
+.popup-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.popup-footer {
+    padding: 20px 24px;
+    background: #fafafa;
+    border-top: 2px solid #e0e0e0;
+}
+
+.footer-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.footer-row.total {
+    margin-top: 12px;
+    padding-top: 12px;
+    font-size: 18px;
+    font-weight: 700;
+
+}
+
+.footer-row.total span:last-child {
+    color: #D2691E;
+}
+
+.popup-actions {
+    display: flex;
+    gap: 12px;
+    padding: 20px 24px;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+}
+
+.popup-actions button {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-edit {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.btn-delete {
+    background: #f44336;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #da190b;
+    transform: translateY(-2px);
+}
+
+/* Scrollbar cho popup table */
+.popup-table::-webkit-scrollbar {
+    width: 6px;
+}
+
+.popup-table::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.popup-table::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .popup-detail {
+        width: 95%;
+        max-height: 95vh;
+    }
+
+    .popup-header h2 {
+        font-size: 20px;
+    }
+
+    .popup-table th,
+    .popup-table td {
+        padding: 10px 6px;
+        font-size: 12px;
+    }
+
+    .footer-row.total {
+        font-size: 16px;
+    }
+
+    .popup-actions button {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+}
+
+.btn-add-product {
+    width: calc(100% - 48px);
+    padding: 12px;
+    margin: 16px 24px;
+    background: transparent;
+    color: #CD853F;
+    border: 2px dashed #CD853F;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-add-product:hover {
+    background: #FFF8DC;
+    border-color: #B8860B;
+    color: #B8860B;
+}

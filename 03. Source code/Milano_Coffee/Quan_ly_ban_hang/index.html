@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milano Coffee - Bán hàng</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Jacques+Francois+Shadow&family=Inder&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+  <!-- Header + Taskbar giống các trang khác -->
+  <div class="header">
+    <div class="logo-section">
+      <img class="logo" src="../Quan_ly_ban_hang/image/milano.jpg" alt="Logo">
+      <div class="logo-text">MILANO COFFEE</div>
+    </div>
+    <!-- Thay toàn bộ phần .user-area bằng đoạn này -->
+    <div class="user-area" onclick="window.location.href='../Thong_tin_ca_nhan/ttcanhan.html'">
+      <!-- Trong .user-area -->
+      <span class="user-id">
+        <script>
+          const user = JSON.parse(localStorage.getItem("currentUser"));
+          document.write(user ? user.username : "NV0001");
+        </script>
+      </span>
+      <img class="user-avatar" src="../Quan_ly_ban_hang/image/avatar.jpg" alt="Avatar">
+    </div>
+  </div>
+
+  <!-- TASKBAR CÓ DROPDOWN ĐẸP Y CHANG HÌNH -->
+<div class="taskbar">
+  <a href="../Quan_ly_ban_hang/index.html">Bán hàng</a>
+
+    <a href="../nhaphang/nhaphang.html" >Nhập hàng</a>
+    <a href="../QuanLyTonKHo/index.html">Tồn kho</a>
+    <div class="dropdown">
+  <a href="#" class="dropdown-toggle">Tổng kết</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../BaocaoNK/baocao.html">Báo cáo nhập hàng</a>
+    <a href="../baocaoDT/baocaoDT.html">Báo cáo doanh thu</a>
+  </div>
+</div>
+   <!-- DROPDOWN "QUẢN LÝ THÔNG TIN" – ĐẸP Y CHANG HÌNH BẠN GỬI -->
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Quản lý thông tin</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../QuanLyNhanVien/index.html">Nhân viên</a>
+    <a href="../QL_TT_NCC/QL_TT_NCC.html">Nhà cung cấp</a>
+    <a href="../QL_TT_mon/Quan_ly_mon.html">Món</a>
+    <a href="../QL_TT_NL/nguyenlieu.html">Nguyên liệu</a>
+    <a href="../Quan_ly_tai_khoan/index.html">Tài khoản</a>
+    <a href="../giaodich/giaodich.html">Lịch sử thanh toán</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Nhân viên</a>
+  <div class="dropdown-menu">
+    <!-- Quản lý lương (có submenu) -->
+    <div class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle-submenu">
+        Quản lý lương 
+        <span class="submenu-arrow">></span>
+      </a>
+      <div class="dropdown-menu submenu">
+        <a href="../ql_luong/Bảng công/bc.html">Bảng công</a>
+        <a href="../ql_luong/Bảng lương/ql_luong.html">Bảng lương</a>
+        <a href="../ql_luong/Tính lương/tluong.html">Tính lương</a>
+      </div>
+    </div>
+
+    <!-- Quản lý lịch làm việc -->
+    <a href="../ql_luong/Lịch làm/Llam.html">Quản lý lịch làm việc</a>
+
+  </div>
+</div>
+  </div>
+  <!-- Nội dung chính -->
+  <div class="main-content">
+
+    <!-- Bên trái: Danh sách bàn -->
+    <div class="tables-section">
+      <div class="tables-grid" id="tablesGrid"></div>
+    </div>
+
+    <!-- Bên phải: Chi tiết đơn hàng -->
+    <div class="order-section">
+      <div class="order-header">
+        <h2 id="currentTable">Chọn bàn để xem đơn</h2>
+      </div>
+
+      <div id="orderItems">
+        <p class="empty-message">Chưa có món nào</p>
+      </div>
+
+      <!-- Nút + Thêm món -->
+      <button class="btn-add-item" id="btnAddItem" style="display:none;" onclick="addMoreItems()">
+        + Thêm món
+      </button>
+
+      <!-- Ô nhập khuyến mãi -->
+      <div class="discount-input">
+        <input type="text" id="discountInput" placeholder="Nhập khuyến mãi ở đây" value="">
+      </div>
+
+      <!-- Tổng tiền -->
+      <div class="order-total">
+        <span>TỔNG TIỀN</span>
+        <span id="totalAmount">0đ</span>
+      </div>
+
+      <!-- Các nút hành động -->
+      <div class="order-actions">
+  
+        <button class="btn-update" id="btnUpdate">Cập nhật</button>
+        <button class="btn-delete" id="btnDeleteOrder">Xóa</button>
+      </div>
+
+      <!-- Nút thanh toán -->
+      <button class="btn-pay" onclick="thanhToan()">THANH TOÁN</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

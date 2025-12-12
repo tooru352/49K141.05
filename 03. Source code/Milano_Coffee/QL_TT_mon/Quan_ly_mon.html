@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Milano Coffee - Quản lý món</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Jacques+Francois+Shadow&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="qlymon.css" />
+  </head>
+<body>
+    <div class="container">
+  <!-- Header + Taskbar giống các trang khác -->
+  <div class="header">
+    <div class="logo-section">
+      <img class="logo" src="../Quan_ly_ban_hang/image/milano.jpg" alt="Logo">
+      <div class="logo-text">MILANO COFFEE</div>
+    </div>
+    <!-- Thay toàn bộ phần .user-area bằng đoạn này -->
+    <div class="user-area" onclick="window.location.href='../Thong_tin_ca_nhan/ttcanhan.html'">
+      <!-- Trong .user-area -->
+      <span class="user-id">
+        <script>
+          const user = JSON.parse(localStorage.getItem("currentUser"));
+          document.write(user ? user.username : "NV0001");
+        </script>
+      </span>
+      <img class="user-avatar" src="../Quan_ly_ban_hang/image/avatar.jpg" alt="Avatar">
+    </div>
+  </div>
+
+  <!-- TASKBAR CÓ DROPDOWN ĐẸP Y CHANG HÌNH -->
+<div class="taskbar">
+  <a href="../Quan_ly_ban_hang/index.html">Bán hàng</a>
+
+    <a href="../nhaphang/nhaphang.html" >Nhập hàng</a>
+    <a href="../QuanLyTonKHo/index.html">Tồn kho</a>
+    <div class="dropdown">
+  <a href="#" class="dropdown-toggle">Tổng kết</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../BaocaoNK/baocao.html">Báo cáo nhập hàng</a>
+    <a href="../baocaoDT/baocaoDT.html">Báo cáo doanh thu</a>
+  </div>
+</div>
+   <!-- DROPDOWN "QUẢN LÝ THÔNG TIN" – ĐẸP Y CHANG HÌNH BẠN GỬI -->
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Quản lý thông tin</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../QuanLyNhanVien/index.html">Nhân viên</a>
+    <a href="../QL_TT_NCC/QL_TT_NCC.html">Nhà cung cấp</a>
+    <a href="../QL_TT_mon/Quan_ly_mon.html">Món</a>
+    <a href="../QL_TT_NL/nguyenlieu.html">Nguyên liệu</a>
+    <a href="../Quan_ly_tai_khoan/index.html">Tài khoản</a>
+    <a href="../giaodich/giaodich.html">Lịch sử thanh toán</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Nhân viên</a>
+  <div class="dropdown-menu">
+    <!-- Quản lý lương (có submenu) -->
+    <div class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle-submenu">
+        Quản lý lương 
+        <span class="submenu-arrow">></span>
+      </a>
+      <div class="dropdown-menu submenu">
+        <a href="../ql_luong/Bảng công/bc.html">Bảng công</a>
+        <a href="../ql_luong/Bảng lương/ql_luong.html">Bảng lương</a>
+        <a href="../ql_luong/Tính lương/tluong.html">Tính lương</a>
+      </div>
+    </div>
+
+    <!-- Quản lý lịch làm việc -->
+    <a href="../ql_luong/Lịch làm/Llam.html">Quản lý lịch làm việc</a>
+  </div>
+</div>
+  </div>        
+      <div class="toolbar">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Tìm kiếm món" />
+          <button class="btn-apply" id="applyBtn">Áp dụng</button>
+        </div>
+        <div class="action-buttons">
+          <button class="btn-action btn-add" id="openAddModal">
+            <i class="fas fa-plus"></i> Thêm món
+          </button>
+          <button class="btn-action btn-edit">
+            <i class="fas fa-edit"></i> Sửa món
+          </button>
+          <button class="btn-action btn-delete">
+            <i class="fas fa-trash-alt"></i> Xóa món
+          </button>
+        </div>
+      </div>
+
+      <!-- Tiêu đề trang -->
+       <!-- Icon quay lại -->
+      <div class="back-to-dashboard" onclick="window.location.href='../Quan_ly_ban_hang/index.html'" title="Quay lại trang Bán hàng">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="#c8a165" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <h1 style="text-align:center;color:#c8a165;margin-bottom: 30px;margin-top:-50px; font-size: 40px;">DANH SÁCH MÓN</h1>
+</div>  
+
+      <!-- Danh sách món -->
+      <div class="menu-content" id="menuList"></div>
+    </div>
+
+    <!-- POPUP THÊM MÓN -->
+    <div class="modal-overlay" id="addModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="back-btn-modal" onclick="closeAddModal()">←</button>
+          <h2>Nhập thông tin món</h2>
+          <button class="btn-save" onclick="saveNewItem()">Lưu</button>
+        </div>
+
+        <div class="form-group">
+          <label>Tên món:</label>
+          <input type="text" id="newName" placeholder="Ví dụ: Latte Vani" />
+        </div>
+
+        <div class="form-group">
+          <label>Giá bán:</label>
+          <input type="number" id="newPrice" placeholder="25000" />
+        </div>
+
+        <div class="form-group">
+          <label>Loại:</label>
+          <select id="newCategory">
+            <option value="Coffee">Coffee</option>
+            <option value="Tea">Tea</option>
+            <option value="Trà sữa">Trà sữa</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Ảnh mô tả:</label>
+          <div
+            class="image-upload"
+            id="imagePreview"
+            onclick="document.getElementById('newImage').click()"
+          >
+            <span id="uploadText">Tải ảnh lên đây</span>
+            <img id="previewImg" src="" alt="" style="display: none" />
+          </div>
+          <input
+            type="file"
+            id="newImage"
+            accept="image/*"
+            onchange="previewImage(event)"
+            style="display: none"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- POPUP SỬA MÓN -->
+    <div class="modal-overlay" id="editModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="back-btn-modal" onclick="closeEditModal()">←</button>
+          <h2>Cập nhật thông tin món</h2>
+          <button class="btn-save" onclick="saveEditedItem()">Lưu</button>
+        </div>
+
+        <div class="form-group">
+          <label>Tên món:</label>
+          <input type="text" id="editName" />
+        </div>
+
+        <div class="form-group">
+          <label>Giá bán:</label>
+          <input type="number" id="editPrice" />
+        </div>
+
+        <div class="form-group">
+          <label>Loai:</label>
+          <select id="editCategory">
+            <option value="Coffee">Coffee</option>
+            <option value="Tea">Tea</option>
+            <option value="Trà sữa">Trà sữa</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Ảnh mô tả:</label>
+          <div
+            class="image-upload"
+            id="editImagePreview"
+            onclick="document.getElementById('editImage').click()"
+          >
+            <span id="editUploadText">Tải ảnh lên đây</span>
+            <img id="editPreviewImg" src="" alt="" style="display: none" />
+          </div>
+          <input
+            type="file"
+            id="editImage"
+            accept="image/*"
+            onchange="previewEditImage(event)"
+            style="display: none"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- POPUP XÓA MÓN -->
+    <div class="modal-overlay" id="deleteModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="back-btn-modal" onclick="closeDeleteModal()">←</button>
+          <h2>Xóa thông tin món</h2>
+          <button
+            class="btn-save"
+            style="background: #d32f2f"
+            onclick="confirmDelete()"
+          >
+            Xác nhận
+          </button>
+        </div>
+
+        <div class="form-group">
+          <label>Tên món:</label>
+          <input type="text" id="deleteName" disabled />
+        </div>
+
+        <div class="form-group">
+          <label>Giá bán:</label>
+          <input type="text" id="deletePrice" disabled />
+        </div>
+
+        <div class="form-group">
+          <label>Loại:</label>
+          <input type="text" id="deleteCategory" disabled />
+        </div>
+
+        <div class="form-group">
+          <label>Ảnh mô tả:</label>
+          <div class="image-upload">
+            <img
+              id="deletePreviewImg"
+              src=""
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 12px;
+              "
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="qlymon.js"></script>
+  </body>
+</html>

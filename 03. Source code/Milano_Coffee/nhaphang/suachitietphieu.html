@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Milano Coffee - Chi tiết phiếu nhập</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="chitietphieunhap.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    select, input { padding: 8px 12px; border: 1px solid #c8a165; border-radius: 6px; font-size: 15px; }
+    .edit-mode input, .edit-mode select { background: #fffbe6; }
+    .btn-save { background: #c8a165; color: white; padding: 12px 30px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin: 10px 5px; }
+    .btn-save:hover { background: #b89355; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header & Taskbar giữ nguyên -->
+  <div class="header">
+    <div class="logo-section">
+      <img class="logo" src="../Quan_ly_ban_hang/image/milano.jpg" alt="Logo">
+      <div class="logo-text">MILANO COFFEE</div>
+    </div>
+    <div class="user-area" onclick="window.location.href='../Thong_tin_ca_nhan/ttcanhan.html'">
+      <span class="user-id">
+        <script>
+          const user = JSON.parse(localStorage.getItem("currentUser"));
+          document.write(user ? user.username : "NV0001");
+        </script>
+      </span>
+      <img class="user-avatar" src="../Quan_ly_ban_hang/image/avatar.jpg" alt="Avatar">
+    </div>
+  </div>
+
+  <div class="taskbar">
+    <a href="../Quan_ly_ban_hang/index.html">Bán hàng</a>
+    <a href="../nhaphang/nhaphang.html">Nhập hàng</a>
+    <a href="../QuanLyTonKHo/index.html">Tồn kho</a>
+    <div class="dropdown"> <a href="#" class="dropdown-toggle">Tổng kết</a> <div class="dropdown-menu info-menu"> <a href="../BaocaoNK/baocao.html">Báo cáo nhập hàng</a> <a href="../baocaoDT/baocaoDT.html">Báo cáo doanh thu</a> </div> </div>
+    <div class="dropdown"> <a href="#" class="dropdown-toggle">Quản lý thông tin</a> <div class="dropdown-menu info-menu"> <a href="../QuanLyNhanVien/index.html">Nhân viên</a> <a href="../QL_TT_NCC/QL_TT_NCC.html">Nhà cung cấp</a> <a href="../QL_TT_mon/Quan_ly_mon.html">Món</a> <a href="../QL_TT_NL/nguyenlieu.html">Nguyên liệu</a> <a href="../Quan_ly_tai_khoan/index.html">Tài khoản</a> <a href="../giaodich/giaodich.html">Lịch sử thanh toán</a> </div> </div>
+    <div class="dropdown"> <a href="#" class="dropdown-toggle">Nhân viên</a> <div class="dropdown-menu"> <div class="dropdown-submenu"> <a href="#" class="dropdown-toggle-submenu"> Quản lý lương <span class="submenu-arrow">></span> </a> <div class="dropdown-menu submenu"> <a href="../ql_luong/Bảng công/bc.html">Bảng công</a> <a href="../ql_luong/Bảng lương/ql_luong.html">Bảng lương</a> <a href="../ql_luong/Tính lương/tluong.html">Tính lương</a> </div> </div> <a href="../ql_luong/Lịch làm/Llam.html">Quản lý lịch làm việc</a> </div> </div>
+  </div>
+
+  <div class="back-to-dashboard" onclick="history.back()">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="#c8a165" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <h1 style="text-align:center;color:#c8a165;margin-bottom:30px;margin-top:-50px;" id="pageTitle">CHI TIẾT PHIẾU NHẬP</h1>
+  </div>
+
+  <div class="main-content">
+
+    <div class="phieu-info">
+      <div class="info-group"><strong>Mã phiếu</strong> <span id="maPhieu">-</span></div>
+      <div class="info-group"><strong>Thời gian tạo</strong> <span id="thoiGian">-</span></div>
+      <div class="info-group"><strong>Người tạo</strong> <span id="nguoiTao">-</span></div>
+      <div class="info-group"><strong>Nhà cung cấp</strong>
+        <select id="nhaCungCapSelect" style="width:260px;"></select>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table class="detail-table">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Tên nguyên liệu</th>
+            <th>Số lượng</th>
+            <th>Đơn vị</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+            <th id="editModeHeader" hidden>Hành động</th>
+          </tr>
+        </thead>
+        <tbody id="chiTietBody"></tbody>
+      </table>
+      <button id="btnAddRow" class="btn-save" style="display:none;margin-top:10px;">+ Thêm nguyên liệu</button>
+    </div>
+
+    <div class="summary">
+      <div class="thue">Thuế VAT (10%) <span id="thue">0</span>đ</div>
+      <div class="total-line">TỔNG TIỀN <span id="tongTien">0</span>đ</div>
+    </div>
+
+    <div style="text-align:center;margin-top:30px;">
+      <button class="btn-save" id="btnSave" style="display:none;">LƯU THAY ĐỔI</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== TỰ ĐỘNG TẠO DỮ LIỆU NHÀ CUNG CẤP MẪU NẾU CHƯA CÓ ====================
+function taoDuLieuNCCMacDinh() {
+  const dsHienTai = JSON.parse(localStorage.getItem('danhSachNCC') || '[]');
+  if (dsHienTai.length === 0) {
+    const nccMacDinh = [
+      { maNCC: "NCC001", tenNCC: "Cty CP Cà Phê Buôn Mê Thuột" },
+      { maNCC: "NCC002", tenNCC: "Hợp tác xã Cà phê Lâm Đồng" },
+      { maNCC: "NCC003", tenNCC: "Cửa hàng Sữa Ông Thọ" },
+      { maNCC: "NCC004", tenNCC: "Nhà máy Đường Biên Hòa" },
+      { maNCC: "NCC005", tenNCC: "Cty TNHH Thực phẩm Vinamilk" },
+      { maNCC: "NCC006", tenNCC: "Siêu thị Ly cà phê & Nguyên liệu" }
+    ];
+    localStorage.setItem('danhSachNCC', JSON.stringify(nccMacDinh));
+    console.log("Đã tạo 6 nhà cung cấp mẫu!");
+  }
+}
+
+// ==================== LOAD DROPDOWN NHÀ CUNG CẤP ====================
+function loadDanhSachNCC() {
+  const dsNCC = JSON.parse(localStorage.getItem('danhSachNCC') || '[]');
+  const select = document.getElementById('nhaCungCapSelect');
+  select.innerHTML = '<option value="">-- Chọn nhà cung cấp --</option>';
+
+  dsNCC.forEach(ncc => {
+    const opt = document.createElement('option');
+    opt.value = ncc.maNCC;
+    opt.textContent = `${ncc.maNCC} - ${ncc.tenNCC}`;
+    select.appendChild(opt);
+  });
+}
+
+// ==================== BIẾN ====================
+const urlParams = new URLSearchParams(window.location.search);
+const maPhieu = urlParams.get('maPhieu');
+const mode = urlParams.get('mode');
+const isEditMode = (mode === 'edit');
+
+// ==================== KHI TRANG LOAD ====================
+document.addEventListener("DOMContentLoaded", async function () {
+  // 1. Tạo NCC mẫu nếu chưa có
+  taoDuLieuNCCMacDinh();
+
+  // 2. Load dropdown NCC
+  loadDanhSachNCC();
+
+  if (!maPhieu) {
+    // TẠO MỚI
+    document.getElementById('pageTitle').textContent = "TẠO PHIẾU NHẬP MỚI";
+    document.getElementById('maPhieu').textContent = "Tự động tạo";
+    document.getElementById('thoiGian').textContent = new Date().toLocaleString('vi-VN');
+    document.getElementById('nguoiTao').textContent = JSON.parse(localStorage.getItem("currentUser") || '{"username":"NV0001"}').username || "NV0001";
+
+    document.getElementById('btnSave').style.display = 'inline-block';
+    document.getElementById('btnAddRow').style.display = 'inline-block';
+    document.getElementById('editModeHeader').hidden = false;
+    document.body.classList.add('edit-mode');
+    themDong('', 1, 0, 'kg', 0, true);
+
+  } else {
+    // XEM / SỬA PHIẾU CŨ
+    loadPhieu();
+
+    if (isEditMode) {
+      document.getElementById('pageTitle').textContent = `SỬA PHIẾU NHẬP - ${maPhieu}`;
+      document.body.classList.add('edit-mode');
+      document.getElementById('btnSave').style.display = 'inline-block';
+      document.getElementById('btnAddRow').style.display = 'inline-block';
+      document.getElementById('editModeHeader').hidden = false;
+      document.getElementById('nhaCungCapSelect').disabled = false;
+    } else {
+      document.getElementById('nhaCungCapSelect').disabled = true;
+    }
+  }
+});
+
+// ==================== LOAD PHIẾU CŨ ====================
+function loadPhieu() {
+  const ds = JSON.parse(localStorage.getItem('danhSachPhieuNhap') || '[]');
+  const phieu = ds.find(p => p.maPhieu === maPhieu);
+
+  if (!phieu) {
+    alert("Không tìm thấy phiếu!");
+    window.location.href = 'nhaphang.html';
+    return;
+  }
+
+  document.getElementById('maPhieu').textContent = phieu.maPhieu;
+  document.getElementById('thoiGian').textContent = phieu.thoiGian;
+  document.getElementById('nguoiTao').textContent = phieu.nguoiTao;
+
+  // CHỌN NHÀ CUNG CẤP CHÍNH XÁC
+  document.getElementById('nhaCungCapSelect').value = phieu.nhaCungCap;
+
+  const tbody = document.getElementById('chiTietBody');
+  tbody.innerHTML = '';
+
+  phieu.chiTiet.forEach((item, i) => {
+    themDong(item.ten || item.tenNL || '', item.soLuong, item.donGia, item.dvt || item.donVi || 'kg', i, isEditMode);
+  });
+
+  tinhTong();
+}
+
+// ==================== CÁC HÀM KHÁC (giữ nguyên) ====================
+function themDong(ten = '', sl = 1, dg = 0, dvt = 'kg', index, edit = false) {
+  const tbody = document.getElementById('chiTietBody');
+  const tr = document.createElement('tr');
+
+  if (edit) {
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td><input type="text" value="${ten}" class="tenNL" style="width:200px;" required></td>
+      <td><input type="number" value="${sl}" class="soLuong" min="0.001" step="0.001" style="width:80px;" required></td>
+      <td><input type="text" value="${dvt}" class="donVi" style="width:80px;" required></td>
+      <td><input type="number" value="${dg}" class="donGia" min="0" style="width:120px;" required></td>
+      <td class="thanhTien">0đ</td>
+      <td><button type="button" onclick="this.closest('tr').remove(); capNhatSTT(); tinhTong();" style="color:red;background:none;border:none;cursor:pointer;">Xóa</button></td>
+    `;
+    tr.querySelectorAll('input').forEach(inp => inp.addEventListener('input', tinhTong));
+  } else {
+    const tt = sl * dg;
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${ten}</td>
+      <td>${sl}</td>
+      <td>${dvt}</td>
+      <td>${dg.toLocaleString('vi-VN')}đ</td>
+      <td><strong>${tt.toLocaleString('vi-VN')}đ</strong></td>
+    `;
+  }
+  tbody.appendChild(tr);
+  tinhTong();
+}
+
+function capNhatSTT() {
+  document.querySelectorAll('#chiTietBody tr').forEach((tr, i) => tr.cells[0].textContent = i + 1);
+}
+
+document.getElementById('btnAddRow')?.addEventListener('click', () => {
+  const len = document.querySelectorAll('#chiTietBody tr').length;
+  themDong('', 1, 0, 'kg', len, true);
+});
+
+function tinhTong() {
+  let tong = 0;
+  document.querySelectorAll('#chiTietBody tr').forEach(row => {
+    if (isEditMode || !maPhieu) {
+      const sl = parseFloat(row.querySelector('.soLuong')?.value) || 0;
+      const dg = parseFloat(row.querySelector('.donGia')?.value) || 0;
+      const tt = sl * dg;
+      row.querySelector('.thanhTien').textContent = tt.toLocaleString('vi-VN') + 'đ';
+      tong += tt;
+    } else {
+      const txt = row.querySelector('td:last-child strong')?.textContent || '0';
+      tong += parseInt(txt.replace(/[^0-9]/g,'')) || 0;
+    }
+  });
+  const thue = Math.round(tong * 0.1);
+  document.getElementById('thue').textContent = thue.toLocaleString('vi-VN');
+  document.getElementById('tongTien').textContent = (tong + thue).toLocaleString('vi-VN');
+}
+
+document.getElementById('btnSave')?.addEventListener('click', function() {
+  const ncc = document.getElementById('nhaCungCapSelect').value;
+  if (!ncc) {
+    alert("Vui lòng chọn nhà cung cấp!");
+    return;
+  }
+
+  const rows = document.querySelectorAll('#chiTietBody tr');
+  if (rows.length === 0) { alert("Phải có ít nhất 1 nguyên liệu!"); return; }
+
+  const chiTiet = [];
+  let ok = true;
+  rows.forEach(row => {
+    const ten = row.querySelector('.tenNL')?.value.trim();
+    const sl = parseFloat(row.querySelector('.soLuong')?.value);
+    const dg = parseFloat(row.querySelector('.donGia')?.value);
+    const dvt = row.querySelector('.donVi')?.value.trim();
+    if (!ten || sl <= 0 || dg < 0 || !dvt) ok = false;
+    else chiTiet.push({ ten, soLuong: sl, donGia: dg, dvt });
+  });
+
+  if (!ok) {
+    alert("Vui lòng nhập đầy đủ và đúng thông tin nguyên liệu!");
+    return;
+  }
+
+  const tongTien = chiTiet.reduce((s, item) => s + item.soLuong * item.donGia, 0);
+
+  const phieuMoi = {
+    maPhieu: maPhieu || "PN" + Date.now().toString().slice(-8),
+    nhaCungCap: ncc,
+    thoiGian: new Date().toLocaleString('vi-VN'),
+    nguoiTao: JSON.parse(localStorage.getItem("currentUser") || '{"username":"NV0001"}').username || "NV0001",
+    tongTien: tongTien,
+    chiTiet: chiTiet
+  };
+
+  let ds = JSON.parse(localStorage.getItem('danhSachPhieuNhap') || '[]');
+  if (maPhieu && isEditMode) {
+    const idx = ds.findIndex(p => p.maPhieu === maPhieu);
+    if (idx !== -1) ds[idx] = phieuMoi;
+  } else {
+    ds.push(phieuMoi);
+  }
+
+  localStorage.setItem('danhSachPhieuNhap', JSON.stringify(ds));
+  alert(maPhieu ? "Cập nhật phiếu thành công!" : "Tạo phiếu nhập thành công!");
+  window.location.href = 'nhaphang.html';
+});
+</script>
+
+</body>
+</html>

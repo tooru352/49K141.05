@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milano Coffee - Lịch Làm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Jacques+Francois+Shadow&family=Inder&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles_llam.css">
+    <style>
+        /* CSS BỔ SUNG ĐỂ KHÔNG BỊ CHẶN CLICK */
+        .action-buttons, .btn-create, .btn-edit { position: relative; z-index: 1000; }
+        .custom-date-picker {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            z-index: 9999;
+            padding: 15px;
+            display: none;
+            pointer-events: auto;
+        }
+        .custom-date-picker.active { display: block; }
+        .date-selector { position: relative; margin: 15px 0; }
+        .date-filter {
+            padding: 12px 45px 12px 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            width: 320px;
+            text-align: center;
+        }
+        .calendar-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            pointer-events: none;
+        }
+        .btn-create {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 20px; background: #a67c52;; color: white;
+            border: none; border-radius: 8px; cursor: pointer; font-size: 15px;
+        }
+        .btn-create:hover { background: #a67c52; }
+        .action-buttons.hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+  <!-- Header + Taskbar giống các trang khác -->
+  <div class="header">
+    <div class="logo-section">
+      <img class="logo" src="../../Quan_ly_ban_hang/image/milano.jpg" alt="Logo">
+      <div class="logo-text">MILANO COFFEE</div>
+    </div>
+    <!-- Thay toàn bộ phần .user-area bằng đoạn này -->
+    <div class="user-area" onclick="window.location.href='../../Thong_tin_ca_nhan/ttcanhan.html'">
+      <!-- Trong .user-area -->
+      <span class="user-id">
+        <script>
+          const user = JSON.parse(localStorage.getItem("currentUser"));
+          document.write(user ? user.username : "NV0001");
+        </script>
+      </span>
+      <img class="user-avatar" src="../../Quan_ly_ban_hang/image/avatar.jpg" alt="Avatar">
+    </div>
+  </div>
+
+  <!-- TASKBAR CÓ DROPDOWN ĐẸP Y CHANG HÌNH -->
+<div class="taskbar">
+  <a href="../../Quan_ly_ban_hang/index.html">Bán hàng</a>
+
+    <a href="../../nhaphang/nhaphang.html" >Nhập hàng</a>
+    <a href="../../QuanLyTonKHo/index.html">Tồn kho</a>
+    <div class="dropdown">
+  <a href="#" class="dropdown-toggle">Tổng kết</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../../BaocaoNK/baocao.html">Báo cáo nhập hàng</a>
+    <a href="../../baocaoDT/baocaoDT.html">Báo cáo doanh thu</a>
+  </div>
+</div>
+   <!-- DROPDOWN "QUẢN LÝ THÔNG TIN" – ĐẸP Y CHANG HÌNH BẠN GỬI -->
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Quản lý thông tin</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../../QuanLyNhanVien/index.html">Nhân viên</a>
+    <a href="../../QL_TT_NCC/QL_TT_NCC.html">Nhà cung cấp</a>
+    <a href="../../QL_TT_mon/Quan_ly_mon.html">Món</a>
+    <a href="../../QL_TT_NL/nguyenlieu.html">Nguyên liệu</a>
+    <a href="../../Quan_ly_tai_khoan/index.html">Tài khoản</a>
+    <a href="../../giaodich/giaodich.html">Lịch sử thanh toán</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Nhân viên</a>
+  <div class="dropdown-menu">
+    <!-- Quản lý lương (có submenu) -->
+    <div class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle-submenu">
+        Quản lý lương 
+        <span class="submenu-arrow">></span>
+      </a>
+      <div class="dropdown-menu submenu">
+        <a href="../Bảng công/bc.html">Bảng công</a>
+        <a href="../Bảng lương/ql_luong.html">Bảng lương</a>
+        <a href="../Tính lương/tluong.html">Tính lương</a>
+      </div>
+    </div>
+
+    <!-- Quản lý lịch làm việc -->
+    <a href="Llam.html">Quản lý lịch làm việc</a>
+  </div>
+</div>
+  </div>
+    <div class="main">
+        <div class="page-header">
+            <div class="left">
+                <span class="back-icon" onclick="backToViewMode()">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+                <h1 class="page-title" id="pageTitle">Lịch làm</h1>
+            </div>
+
+            <!-- 2 NÚT CHỈ HIỆN KHI XEM -->
+            <div class="action-buttons" id="actionButtons">
+                <button class="btn-edit" id="btnEdit" onclick="enterEditMode()">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-create" onclick="openDatePicker()">
+                    <i class="fas fa-calendar-plus"></i> Tạo lịch mới
+                </button>
+            </div>
+        </div>
+
+        <!-- TIÊU ĐỀ + THỜI GIAN -->
+        <div class="schedule-header">
+    <h2>LỊCH LÀM VIỆC</h2>
+    
+    <!-- Thời gian hiển thị -->
+    <p id="dateRange" style="margin:15px 0; font-size:18px; font-weight:600; color:#8B4513;">
+        Chưa có lịch làm việc
+    </p>
+
+    <!-- Icon lịch nhỏ chỉ hiện khi đang tạo/sửa -->
+        <!-- Icon lịch nhỏ + Date Picker nằm ngay dưới -->
+    <div class="date-picker-wrapper">
+        <div class="mini-calendar-trigger" id="miniCalendarTrigger" style="display:none;">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Chọn khoảng thời gian</span>
+        </div>
+
+        <!-- LỊCH CHỌN NGÀY ĐƯỢC ĐẶT NGAY TẠI ĐÂY -->
+        <div class="custom-date-picker" id="datePicker">
+            <div class="calendars">
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <button class="prev-month" type="button">←</button>
+                        <span class="month-title">Tháng 12 2025</span>
+                        <button class="next-month" type="button">→</button>
+                    </div>
+                    <div class="weekdays">
+                        <div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div>T7</div><div>CN</div>
+                    </div>
+                    <div class="days" id="days-left"></div>
+                </div>
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <button class="prev-month" type="button">←</button>
+                        <span class="month-title">Tháng 1 2026</span>
+                        <button class="next-month" type="button">→</button>
+                    </div>
+                    <div class="weekdays">
+                        <div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div>T7</div><div>CN</div>
+                    </div>
+                    <div class="days" id="days-right"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="table-container">
+            <table id="scheduleTable">
+                <thead>
+                    <tr>
+                        <th>MANV</th>
+                        <th>Họ tên</th>
+                        <th>Vị trí</th>
+                        <th>Thứ 2</th><th>Thứ 3</th><th>Thứ 4</th><th>Thứ 5</th><th>Thứ 6</th><th>Thứ 7</th><th>CN</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleBody"></tbody>
+            </table>
+
+            <div class="legend">
+                Các ca: 
+                <span class="shift s">S (6h-11h)</span>
+                <span class="shift c">C (11h-17h)</span>
+                <span class="shift t">T (17h-21h)</span>
+            </div>
+
+            <!-- NÚT LƯU / HỦY -->
+            <div class="save-actions" id="saveActions" style="display:none; margin-top:20px; text-align:center;">
+                <button class="btn-save" onclick="showConfirmDialog()" style="padding:12px 30px; font-size:16px;">
+                    <i class="fas fa-save"></i> Lưu lịch
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL XÁC NHẬN LƯU -->
+<div class="confirm-modal" id="confirmModal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeConfirmDialog()">×</span>
+        <div class="check-icon"><i class="fas fa-check"></i></div>
+        <h2>Xác nhận lưu lịch làm việc?</h2>
+        <button class="confirm-btn" onclick="saveSchedule()">Lưu</button>
+    </div>
+</div>
+
+<script src="script_llam.js"></script>
+</body>
+</html>

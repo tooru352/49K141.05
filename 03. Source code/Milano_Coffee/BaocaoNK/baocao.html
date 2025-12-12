@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milano Coffee - Báo cáo doanh thu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Jacques+Francois+Shadow&family=Inder&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="baocao.css">
+</head>
+
+<body>
+    <div class="container">
+  <!-- Header + Taskbar giống các trang khác -->
+  <div class="header">
+    <div class="logo-section">
+      <img class="logo" src="../Quan_ly_ban_hang/image/milano.jpg" alt="Logo">
+      <div class="logo-text">MILANO COFFEE</div>
+    </div>
+    <!-- Thay toàn bộ phần .user-area bằng đoạn này -->
+    <div class="user-area" onclick="window.location.href='../Thong_tin_ca_nhan/ttcanhan.html'">
+      <!-- Trong .user-area -->
+      <span class="user-id">
+        <script>
+          const user = JSON.parse(localStorage.getItem("currentUser"));
+          document.write(user ? user.username : "NV0001");
+        </script>
+      </span>
+      <img class="user-avatar" src="../Quan_ly_ban_hang/image/avatar.jpg" alt="Avatar">
+    </div>
+  </div>
+
+  <!-- TASKBAR CÓ DROPDOWN ĐẸP Y CHANG HÌNH -->
+<div class="taskbar">
+  <a href="../Quan_ly_ban_hang/index.html">Bán hàng</a>
+
+    <a href="../nhaphang/nhaphang.html" >Nhập hàng</a>
+    <a href="../QuanLyTonKHo/index.html">Tồn kho</a>
+    <div class="dropdown">
+  <a href="#" class="dropdown-toggle">Tổng kết</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../BaocaoNK/baocao.html">Báo cáo nhập hàng</a>
+    <a href="../baocaoDT/baocaoDT.html">Báo cáo doanh thu</a>
+  </div>
+</div>
+   <!-- DROPDOWN "QUẢN LÝ THÔNG TIN" – ĐẸP Y CHANG HÌNH BẠN GỬI -->
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Quản lý thông tin</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../QuanLyNhanVien/index.html">Nhân viên</a>
+    <a href="../QL_TT_NCC/QL_TT_NCC.html">Nhà cung cấp</a>
+    <a href="../QL_TT_mon/Quan_ly_mon.html">Món</a>
+    <a href="../QL_TT_NL/nguyenlieu.html">Nguyên liệu</a>
+    <a href="../Quan_ly_tai_khoan/index.html">Tài khoản</a>
+    <a href="../giaodich/giaodich.html">Lịch sử thanh toán</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Nhân viên</a>
+  <div class="dropdown-menu">
+    <!-- Quản lý lương (có submenu) -->
+    <div class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle-submenu">
+        Quản lý lương 
+        <span class="submenu-arrow">></span>
+      </a>
+      <div class="dropdown-menu submenu">
+        <a href="../ql_luong/Bảng công/bc.html">Bảng công</a>
+        <a href="../ql_luong/Bảng lương/ql_luong.html">Bảng lương</a>
+        <a href="../ql_luong/Tính lương/tluong.html">Tính lương</a>
+      </div>
+    </div>
+
+    <!-- Quản lý lịch làm việc -->
+    <a href="../ql_luong/Lịch làm/Llam.html">Quản lý lịch làm việc</a>
+  </div>
+</div>
+  </div>
+  <div class="back-to-dashboard" onclick="window.location.href='../Quan_ly_ban_hang/index.html'" title="Quay lại trang Bán hàng">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="#c8a165" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <h1 style="text-align:center;color:#c8a165;margin-bottom: 30px;margin-top:-50px;">BÁO CÁO NHẬP HÀNG</h1>
+</div>
+    <!-- Content -->
+    <div class="content">
+        <div class="report-card">
+            <div class="total-section">
+                <div>
+                    <div class="total-label">TỔNG DOANH THU</div>
+                    <div class="total-amount" id="totalRevenue">9.234.650 VND</div>
+                </div>
+
+                <div class="filter-section">
+                    <select id="dateFilter">
+                        <option value="all">Tất cả</option>
+                        <option value="today">Hôm nay</option>
+                        <option value="yesterday">Hôm qua</option>
+                        <option value="thisweek">Tuần này</option>
+                        <option value="thismonth" selected>Tháng này</option>
+                        <option value="custom">Tùy chỉnh...</option>
+                    </select>
+                    <button class="apply" onclick="applyFilter()">Áp dụng</button>
+                    <button class="export">Xuất file</button>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã đơn hàng</th>
+                        <th>Thời gian</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Dữ liệu sẽ được JS render -->
+                </tbody>
+            </table>
+
+            <div class="pagination">1 2 3 ...</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dữ liệu mẫu
+    const orders = [
+        { id: "HD010", time: "09:30 12/10/2025", qty: 3, amount: 77000 },
+        { id: "HD009", time: "10:20 12/10/2025", qty: 7, amount: 200000 },
+        { id: "HD008", time: "13:25 12/10/2025", qty: 2, amount: 50000 },
+        { id: "HD007", time: "20:45 12/10/2025", qty: 3, amount: 98000 },
+        { id: "HD006", time: "09:30 12/10/2025", qty: 5, amount: 140000 },
+        { id: "HD005", time: "10:20 10/10/2025", qty: 4, amount: 110000 },
+        { id: "HD004", time: "13:25 10/10/2025", qty: 3, amount: 80000 },
+        { id: "HD003", time: "20:45 10/10/2025", qty: 1, amount: 28000 },
+    ];
+
+    // Định dạng tiền tệ
+    function formatMoney(vnd) {
+        return new Intl.NumberFormat('vi-VN').format(vnd) + ' VND';
+    }
+
+    // Render bảng và tổng
+    function renderTable(data) {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+
+        let total = 0;
+        data.forEach((order, index) => {
+            total += order.amount;
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${order.id}</td>
+                <td>${order.time}</td>
+                <td>${order.qty}</td>
+                <td>${formatMoney(order.amount)}</td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        document.getElementById('totalRevenue').textContent = formatMoney(total);
+    }
+
+    // Lọc dữ liệu
+    function applyFilter() {
+        const filter = document.getElementById('dateFilter').value;
+        let filtered = [...orders];
+
+        if (filter === 'thismonth') {
+            // Giữ tất cả (giả sử dữ liệu đang là tháng này)
+        } else if (filter === 'today') {
+            filtered = orders.filter(o => o.time.includes('12/10/2025')); // ví dụ ngày 12
+        } else if (filter === 'all') {
+            filtered = orders;
+        }
+        // Có thể mở rộng thêm các filter khác
+
+        renderTable(filtered);
+    }
+
+    // Khởi tạo lần đầu
+    window.onload = () => renderTable(orders);
+</script>
+
+</body>
+</html>

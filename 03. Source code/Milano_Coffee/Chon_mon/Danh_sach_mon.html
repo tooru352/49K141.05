@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Milano Coffee - Đặt món</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Danh_sach_mon.css">
+</head>
+<body>
+
+<div class="container">
+  <!-- Header + Taskbar giống trang bán hàng -->
+  <div class="header">
+    <div class="logo-section">
+      <img class="logo" src="../Quan_ly_ban_hang/image/milano.jpg" alt="Logo">
+      <div class="logo-text">MILANO COFFEE</div>
+    </div>
+    <div class="user-area">
+      <span class="user-id">NV0001</span>
+      <img class="user-avatar" src="../Quan_ly_ban_hang/image/avatar.jpg" alt="Avatar">
+    </div>
+  </div>
+
+  <!-- Taskbar giống hệt trang bán hàng -->
+  <div class="taskbar">
+    <a href="../Quan_ly_ban_hang/index.html">Bán hàng</a>
+    <a href="#">Nhập hàng</a>
+    <a href="#">Tồn kho</a>
+    <a href="#">Tổng kết</a>
+    <a href="#">Quản lý thông tin</a>
+    <a href="#">Nhân viên</a>
+  </div>
+
+  <!-- Thanh tìm kiếm + Icon giỏ hàng -->
+  <div class="search-bar">
+    <div class="search-input">
+      <div class="back-btn" onclick="goBack()">←</div>
+      <input type="text" id="searchInput" placeholder="Tìm kiếm món">
+      <button id="applyBtn">Áp dụng</button>
+    </div>
+
+    <div class="cart-icon" id="cartIcon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 2L3 6V20C3 20.5304 3.21071 21.0391 3.58579 21.4142C3.96086 21.7893 4.46957 22 5 22H19C19.5304 22 20.0391 21.7893 20.4142 21.4142C20.7893 21.0391 21 20.5304 21 20V6L18 2H6Z" 
+              stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 6H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 10C16 11.0609 15.5786 12.0783 14.8284 12.8284C14.0783 13.5786 13.0609 14 12 14C10.9391 14 9.92172 13.5786 9.17157 12.8284C8.42143 12.0783 8 11.0609 8 10" 
+              stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span id="cartCount">0</span>
+    </div>
+  </div>
+
+  <!-- Danh sách món -->
+  <div class="menu-content">
+    <h2>Danh sách các món</h2>
+    <div id="menuList"></div>
+  </div>
+
+  <!-- Giỏ hàng cố định dưới cùng -->
+  <div class="cart-fixed" id="cartFixed" style="display:none;">
+    <div class="cart-header">
+      <span>Giỏ hàng (<span id="cartTotalItems">0</span> món)</span>
+      <span id="cartTotalPrice">0đ</span>
+    </div>
+    <div class="cart-buttons">
+      <button class="btn-complete" onclick="completeOrder()">HOÀN TẤT</button>
+      <button class="btn-cancel" onclick="cancelOrder()">HỦY ĐẶT MÓN</button>
+    </div>
+  </div>
+</div>
+
+<script src="Danh_sach_mon.js"></script>
+</body>
+</html>

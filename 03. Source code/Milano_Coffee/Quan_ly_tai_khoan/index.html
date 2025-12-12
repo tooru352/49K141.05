@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milano Coffee - Quản Lý Tài Khoản</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Jacques+Francois+Shadow&family=Inder&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+  <!-- Header + Taskbar giống các trang khác -->
+  <div class="header">
+    <div class="logo-section">
+      <img class="logo" src="../Quan_ly_ban_hang/image/milano.jpg" alt="Logo">
+      <div class="logo-text">MILANO COFFEE</div>
+    </div>
+    <!-- Thay toàn bộ phần .user-area bằng đoạn này -->
+    <div class="user-area" onclick="window.location.href='../Thong_tin_ca_nhan/ttcanhan.html'">
+      <!-- Trong .user-area -->
+      <span class="user-id">
+        <script>
+          const user = JSON.parse(localStorage.getItem("currentUser"));
+          document.write(user ? user.username : "NV0001");
+        </script>
+      </span>
+      <img class="user-avatar" src="../Quan_ly_ban_hang/image/avatar.jpg" alt="Avatar">
+    </div>
+  </div>
+
+  <!-- TASKBAR CÓ DROPDOWN ĐẸP Y CHANG HÌNH -->
+<div class="taskbar">
+  <a href="../Quan_ly_ban_hang/index.html">Bán hàng</a>
+
+    <a href="../nhaphang/nhaphang.html" >Nhập hàng</a>
+    <a href="../QuanLyTonKHo/index.html">Tồn kho</a>
+    <div class="dropdown">
+  <a href="#" class="dropdown-toggle">Tổng kết</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../BaocaoNK/baocao.html">Báo cáo nhập hàng</a>
+    <a href="../baocaoDT/baocaoDT.html">Báo cáo doanh thu</a>
+  </div>
+</div>
+   <!-- DROPDOWN "QUẢN LÝ THÔNG TIN" – ĐẸP Y CHANG HÌNH BẠN GỬI -->
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Quản lý thông tin</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../QuanLyNhanVien/index.html">Nhân viên</a>
+    <a href="../QL_TT_NCC/QL_TT_NCC.html">Nhà cung cấp</a>
+    <a href="../QL_TT_mon/Quan_ly_mon.html">Món</a>
+    <a href="../QL_TT_NL/nguyenlieu.html">Nguyên liệu</a>
+    <a href="../Quan_ly_tai_khoan/index.html">Tài khoản</a>
+    <a href="../giaodich/giaodich.html">Lịch sử thanh toán</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Nhân viên</a>
+  <div class="dropdown-menu">
+    <!-- Quản lý lương (có submenu) -->
+    <div class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle-submenu">
+        Quản lý lương 
+        <span class="submenu-arrow">></span>
+      </a>
+      <div class="dropdown-menu submenu">
+        <a href="../ql_luong/Bảng công/bc.html">Bảng công</a>
+        <a href="../ql_luong/Bảng lương/ql_luong.html">Bảng lương</a>
+        <a href="../ql_luong/Tính lương/tluong.html">Tính lương</a>
+      </div>
+    </div>
+
+    <!-- Quản lý lịch làm việc -->
+    <a href="../ql_luong/Lịch làm/Llam.html">Quản lý lịch làm việc</a>
+  </div>
+</div>
+  </div>
+  <!-- Icon quay lại -->
+      <div class="back-to-dashboard" onclick="window.location.href='../Quan_ly_ban_hang/index.html'" title="Quay lại trang Bán hàng">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="#c8a165" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <h1 style="text-align:center;color:#c8a165;margin-bottom: 30px;margin-top:-50px;">DANH SÁCH TÀI KHOẢN</h1>
+</div>          
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <section class="employee-page">
+        <div class="page-header">
+          <button class="btn-add" onclick="openAddModal()">
+            <span class="plus">+</span> Thêm
+          </button>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="employee-table">
+            <thead>
+              <tr>
+                <th>Mã nhân viên</th>
+                <th>Tên nhân viên</th>
+                <th>Tên đăng nhập</th>
+                <th>Mật khẩu</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="accountList">
+              <!-- JS fill -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination (dummy) -->
+        <div class="pagination">
+          <button class="page-arrow prev disabled">
+            <span>&#x2039;</span>
+          </button>
+          <button class="page-number active">1</button>
+          <button class="page-number">2</button>
+          <button class="page-number">3</button>
+          <span>...</span>
+          <button class="page-arrow next">
+            <span>&#x203A;</span>
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- POPUP THÊM / SỬA TÀI KHOẢN (851 x 528) -->
+  <div id="addPopup" class="popup-overlay" style="display:none;">
+    <div class="add-popup-card">
+      <button type="button" id="btnCloseAdd" class="back-btn">←</button>
+      <h1 class="popup-title" id="popupTitle">THÊM TÀI KHOẢN</h1>
+
+      <form id="addAccountForm" class="info-form">
+        <div class="form-row">
+          <label for="addUsername">Tên đăng nhập:</label>
+          <input type="text" id="addUsername" required readonly />
+        </div>
+
+        <div class="form-row">
+          <label for="addPassword">Mật khẩu:</label>
+          <input type="password" id="addPassword" required />
+        </div>
+
+        <div class="form-row">
+          <label for="addConfirmPassword">Xác nhận mật khẩu:</label>
+          <input type="password" id="addConfirmPassword" required />
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-save">Thêm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- POPUP XÁC NHẬN XÓA -->
+  <div id="deleteOverlay" class="delete-overlay" style="display:none;">
+    <div class="delete-card">
+      <h2 class="delete-title">Xác nhận xóa tài khoản</h2>
+
+      <div class="delete-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 6H21" stroke="#b3b3b3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 4H15C15.6 4 16 4.4 16 5V6H8V5C8 4.4 8.4 4 9 4Z" stroke="#b3b3b3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 6V19C6 19.6 6.4 20 7 20H17C17.6 20 18 19.6 18 19V6" stroke="#b3b3b3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 10V17" stroke="#b3b3b3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14 10V17" stroke="#b3b3b3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="delete-actions">
+        <button class="btn-delete-cancel" onclick="closeDeletePopup()">Hủy</button>
+        <button class="btn-delete-confirm" onclick="confirmDelete()">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP THÔNG BÁO THÀNH CÔNG CŨ (nếu sau xài) -->
+  <div id="notifyOverlay" class="notify-overlay" style="display:none;">
+    <div class="notify-box">
+      <div class="notify-icon">✓</div>
+      <h2 class="notify-title">Thành công!</h2>
+      <button class="notify-btn" onclick="closeNotify()">OK</button>
+    </div>
+  </div>
+
+  <!-- POPUP XÓA THÀNH CÔNG (giống popup thêm / cập nhật) -->
+  <div id="deleteSuccessPopup" class="popup-overlay" style="display:none;">
+    <div class="success-popup-card">
+      <div class="success-icon">
+        <span>✓</span>
+      </div>
+      <h2 class="success-title">ĐÃ XÓA THÀNH CÔNG</h2>
+      <button class="success-btn" onclick="closeDeleteSuccess()">Đóng</button>
+    </div>
+  </div>
+
+
+  <!-- POPUP ĐÃ THÊM THÀNH CÔNG -->
+  <div id="successPopup" class="popup-overlay" style="display:none;">
+    <div class="success-popup-card">
+      <div class="success-icon">
+        <span>✓</span>
+      </div>
+      <h2 class="success-title">ĐÃ THÊM THÀNH CÔNG</h2>
+      <button class="success-btn" onclick="closeSuccessPopup()">Đóng</button>
+    </div>
+  </div>
+
+  <!-- POPUP ĐÃ CẬP NHẬT THÀNH CÔNG -->
+  <div id="updatePopup" class="popup-overlay" style="display:none;">
+    <div class="success-popup-card">
+      <div class="success-icon">
+        <span>✓</span>
+      </div>
+      <h2 class="success-title">ĐÃ CẬP NHẬT THÀNH CÔNG</h2>
+      <button class="success-btn" onclick="closeUpdatePopup()">Đóng</button>
+    </div>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>

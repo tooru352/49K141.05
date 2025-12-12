@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milano Coffee - Nhập hàng</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Jacques+Francois+Shadow&family=Inder&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="nhaphang.css">
+</head>
+
+<body>
+    <div class="container">
+  <!-- Header + Taskbar giống các trang khác -->
+  <div class="header">
+    <div class="logo-section">
+      <img class="logo" src="../Quan_ly_ban_hang/image/milano.jpg" alt="Logo">
+      <div class="logo-text">MILANO COFFEE</div>
+    </div>
+    <!-- Thay toàn bộ phần .user-area bằng đoạn này -->
+    <div class="user-area" onclick="window.location.href='../Thong_tin_ca_nhan/ttcanhan.html'">
+      <!-- Trong .user-area -->
+      <span class="user-id">
+        <script>
+          const user = JSON.parse(localStorage.getItem("currentUser"));
+          document.write(user ? user.username : "NV0001");
+        </script>
+      </span>
+      <img class="user-avatar" src="../Quan_ly_ban_hang/image/avatar.jpg" alt="Avatar">
+    </div>
+  </div>
+
+  <!-- TASKBAR CÓ DROPDOWN ĐẸP Y CHANG HÌNH -->
+<div class="taskbar">
+  <a href="../Quan_ly_ban_hang/index.html">Bán hàng</a>
+
+    <a href="../nhaphang/nhaphang.html" >Nhập hàng</a>
+    <a href="../QuanLyTonKHo/index.html">Tồn kho</a>
+    <div class="dropdown">
+  <a href="#" class="dropdown-toggle">Tổng kết</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../BaocaoNK/baocao.html">Báo cáo nhập hàng</a>
+    <a href="../baocaoDT/baocaoDT.html">Báo cáo doanh thu</a>
+  </div>
+</div>
+   <!-- DROPDOWN "QUẢN LÝ THÔNG TIN" – ĐẸP Y CHANG HÌNH BẠN GỬI -->
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Quản lý thông tin</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../QuanLyNhanVien/index.html">Nhân viên</a>
+    <a href="../QL_TT_NCC/QL_TT_NCC.html">Nhà cung cấp</a>
+    <a href="../QL_TT_mon/Quan_ly_mon.html">Món</a>
+    <a href="../QL_TT_NL/nguyenlieu.html">Nguyên liệu</a>
+    <a href="../Quan_ly_tai_khoan/index.html">Tài khoản</a>
+    <a href="../giaodich/giaodich.html">Lịch sử thanh toán</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Nhân viên</a>
+  <div class="dropdown-menu">
+    <!-- Quản lý lương (có submenu) -->
+    <div class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle-submenu">
+        Quản lý lương 
+        <span class="submenu-arrow">></span>
+      </a>
+      <div class="dropdown-menu submenu">
+        <a href="../ql_luong/Bảng công/bc.html">Bảng công</a>
+        <a href="../ql_luong/Bảng lương/ql_luong.html">Bảng lương</a>
+        <a href="../ql_luong/Tính lương/tluong.html">Tính lương</a>
+      </div>
+    </div>
+
+    <!-- Quản lý lịch làm việc -->
+    <a href="../ql_luong/Lịch làm/Llam.html">Quản lý lịch làm việc</a>
+
+  </div>
+</div>
+  </div>
+        <div class="main">
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="left-tools">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm phiếu nhập">
+                    </div>
+
+                    <!-- Custom Date Picker -->
+                    <div class="custom-date-picker">
+                        <input type="text" id="dateInput"    class="date-filter" readonly placeholder="Chọn khoảng thời gian">
+                        <div class="datepicker-dropdown">
+                            <div class="calendars">
+                                <!-- Tháng trái -->
+                                <div class="calendar">
+                                    <div class="calendar-header">
+                                        <button class="prev-month" type="button">←</button>
+                                        <span class="month-title">Tháng 12 2025</span>
+                                        <button class="next-month" type="button">→</button>
+                                    </div>
+                                    <div class="weekdays">
+                                        <div>T2</div>
+                                        <div>T3</div>
+                                        <div>T4</div>
+                                        <div>T5</div>
+                                        <div>T6</div>
+                                        <div>T7</div>
+                                        <div>CN</div>
+                                    </div>
+                                    <div class="days" id="days-left"></div>
+                                </div>
+
+                                <!-- Tháng phải -->
+                                <div class="calendar">
+                                    <div class="calendar-header">
+                                        <button class="prev-month" type="button">←</button>
+                                        <span class="month-title">Tháng 1 2026</span>
+                                        <button class="next-month" type="button">→</button>
+                                    </div>
+                                    <div class="weekdays">
+                                        <div>T2</div>
+                                        <div>T3</div>
+                                        <div>T4</div>
+                                        <div>T5</div>
+                                        <div>T6</div>
+                                        <div>T7</div>
+                                        <div>CN</div>
+                                    </div>
+                                    <div class="days" id="days-right"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-apply" id="btnApply">Áp dụng</button>
+                </div>
+                <button class="btn-create" id="btnCreate">Tạo phiếu</button>
+            </div>
+  <div class="back-to-dashboard" onclick="window.location.href='../Quan_ly_ban_hang/index.html'" title="Quay lại trang Bán hàng">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="#c8a165" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <h1 style="text-align:center;color:#c8a165;margin-bottom: 30px;margin-top:-50px;">PHIẾU NHẬP HÀNG</h1>
+</div>
+            <!-- Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã phiếu nhập</th>
+                            <th>Mã nhà cung cấp</th>
+                            <th>Thời gian</th>
+                            <th>Tổng tiền</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="phieuBody">
+                        <tr>
+                            <td>PN000090</td>
+                            <td>NCC002</td>
+                            <td>20/09/2025</td>
+                            <td class="total-money">3.980.000</td>
+                            <td class="actions">
+                                <button class="view-btn">👁</button>
+                                <button class="edit-btn">✏</button>
+                                <button class="delete-btn">🗑</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PN000089</td>
+                            <td>NCC001</td>
+                            <td>10/09/2025</td>
+                            <td class="total-money">1.980.000</td>
+                            <td class="actions">
+                                <button class="view-btn">👁</button>
+                                <button class="edit-btn">✏</button>
+                                <button class="delete-btn">🗑</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PN000088</td>
+                            <td>NCC004</td>
+                            <td>10/09/2025</td>
+                            <td class="total-money">1.200.000</td>
+                            <td class="actions">
+                                <button class="view-btn">👁</button>
+                                <button class="edit-btn">✏</button>
+                                <button class="delete-btn">🗑</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PN000087</td>
+                            <td>NCC003</td>
+                            <td>05/09/2025</td>
+                            <td class="total-money">2.450.000</td>
+                            <td class="actions">
+                                <button class="view-btn">👁</button>
+                                <button class="edit-btn">✏</button>
+                                <button class="delete-btn">🗑</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PN000086</td>
+                            <td>NCC001</td>
+                            <td>01/09/2025</td>
+                            <td class="total-money">1.680.000</td>
+                            <td class="actions">
+                                <button class="view-btn">👁</button>
+                                <button class="edit-btn">✏</button>
+                                <button class="delete-btn">🗑</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button>‹</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button class="dots">...</button>
+                <button>›</button>
+            </div>
+        </div>
+    </div>
+<script src="nhaphang.js"></script>
+<script>
+// ==================== NHAPHANG.JS - HOÀN CHỈNH & CHẠY NGON NGAY ====================
+document.addEventListener("DOMContentLoaded", function () {
+  loadDanhSachPhieu(); // Load ngay khi mở trang
+
+  // Nút Tạo phiếu
+  document.getElementById("btnCreate").addEventListener("click", function () {
+    const now = new Date();
+    const maPhieu = "PN" + String(Date.now()).slice(-6); // Tạo mã tự động
+    const thoiGian = now.toLocaleString('vi-VN');
+    const nguoiTao = "NV001";
+
+    window.location.href = `taophieu.html?maPhieu=${maPhieu}&thoiGian=${encodeURIComponent(thoiGian)}&nguoiTao=${nguoiTao}`;
+  });
+
+  // Tìm kiếm tức thì
+  document.getElementById("searchInput").addEventListener("input", loadDanhSachPhieu);
+});
+
+// ==================== HÀM LOAD DANH SÁCH PHIẾU TỪ LOCALSTORAGE ====================
+function loadDanhSachPhieu() {
+  const tbody = document.getElementById("phieuBody");
+  if (!tbody) return;
+
+  // Lấy dữ liệu từ localStorage
+  let dsPhieu = JSON.parse(localStorage.getItem('danhSachPhieuNhap') || '[]');
+
+  // Lọc theo ô tìm kiếm
+  const query = document.getElementById("searchInput").value.trim().toLowerCase();
+  let filtered = dsPhieu;
+
+  if (query) {
+    filtered = dsPhieu.filter(p =>
+      p.maPhieu.toLowerCase().includes(query) ||
+      p.nhaCungCap.toLowerCase().includes(query) ||
+      p.nguoiTao.toLowerCase().includes(query)
+    );
+  }
+
+  // Sắp xếp mới nhất lên đầu
+  filtered.sort((a, b) => new Date(b.ngayTao) - new Date(a.ngayTao));
+
+  // Xóa hết dòng cũ (kể cả dòng mẫu)
+  tbody.innerHTML = '';
+
+  if (filtered.length === 0) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td colspan="5" style="text-align:center; padding:30px; color:#999;">
+                      Chưa có phiếu nhập nào ${query ? '(theo tìm kiếm)' : ''}
+                    </td>`;
+    tbody.appendChild(tr);
+    return;
+  }
+
+  // Render từng phiếu
+  filtered.forEach(phieu => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${phieu.maPhieu}</td>
+      <td>${phieu.nhaCungCap}</td>
+      <td>${phieu.thoiGian}</td>
+      <td class="total-money">${phieu.tongTien.toLocaleString('vi-VN')}đ</td>
+      <td class="actions">
+        <button class="view-btn" title="Xem" onclick="xemPhieu('${phieu.maPhieu}')">👁</button>
+        <button class="edit-btn" title="Sửa" onclick="suaPhieu('${phieu.maPhieu}')">✏</button>
+        <button class="delete-btn" title="Xóa" onclick="xoaPhieu('${phieu.maPhieu}', this)">🗑</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ==================== CÁC HÀM HỖ TRỢ ====================
+function xemPhieu(maPhieu) {
+  alert("Chức năng xem chi tiết đang phát triển... (Mã phiếu: " + maPhieu + ")");
+}
+
+function suaPhieu(maPhieu) {
+  if (confirm("Chỉnh sửa phiếu " + maPhieu + "?")) {
+    // Có thể mở lại taophieu.html với dữ liệu cũ
+    alert("Tính năng sửa đang phát triển...");
+  }
+}
+
+function xoaPhieu(maPhieu, btn) {
+  if (confirm("Xóa phiếu " + maPhieu + " vĩnh viễn?")) {
+    let ds = JSON.parse(localStorage.getItem('danhSachPhieuNhap') || '[]');
+    ds = ds.filter(p => p.maPhieu !== maPhieu);
+    localStorage.setItem('danhSachPhieuNhap', JSON.stringify(ds));
+    btn.closest('tr').remove();
+    // Nếu xóa hết thì hiện thông báo
+    if (ds.length === 0) loadDanhSachPhieu();
+  }
+}
+function xemPhieu(maPhieu) {
+    window.location.href = `chitietphieu.html?maPhieu=${maPhieu}`;
+}
+function suaPhieu(maPhieu) {
+    window.location.href = `suachitietphieu.html?mode=edit&maPhieu=${maPhieu}`;
+}
+
+// Xóa phiếu
+function xoaPhieu(maPhieu, btn) {
+    if (confirm(`Xóa vĩnh viễn phiếu ${maPhieu}?`)) {
+        let ds = JSON.parse(localStorage.getItem('danhSachPhieuNhap') || '[]');
+        ds = ds.filter(p => p.maPhieu !== maPhieu);
+        localStorage.setItem('danhSachPhieuNhap', JSON.stringify(ds));
+        btn.closest('tr').remove();
+        if (ds.length === 0) loadDanhSachPhieu();
+    }
+}
+</script>
+</body>
+
+</html>

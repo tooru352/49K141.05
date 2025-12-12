@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milano Coffee - Bảng Công</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Jacques+Francois+Shadow&family=Inder&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles_bc.css">
+</head>
+<body>
+
+    <div class="container">
+  <!-- Header + Taskbar giống các trang khác -->
+  <div class="header">
+    <div class="logo-section">
+      <img class="logo" src="../../Quan_ly_ban_hang/image/milano.jpg" alt="Logo">
+      <div class="logo-text">MILANO COFFEE</div>
+    </div>
+    <!-- Thay toàn bộ phần .user-area bằng đoạn này -->
+    <div class="user-area" onclick="window.location.href='../../Thong_tin_ca_nhan/ttcanhan.html'">
+      <!-- Trong .user-area -->
+      <span class="user-id">
+        <script>
+          const user = JSON.parse(localStorage.getItem("currentUser"));
+          document.write(user ? user.username : "NV0001");
+        </script>
+      </span>
+      <img class="user-avatar" src="../../Quan_ly_ban_hang/image/avatar.jpg" alt="Avatar">
+    </div>
+  </div>
+
+  <!-- TASKBAR CÓ DROPDOWN ĐẸP Y CHANG HÌNH -->
+<div class="taskbar">
+  <a href="../../Quan_ly_ban_hang/index.html">Bán hàng</a>
+
+    <a href="../../nhaphang/nhaphang.html" >Nhập hàng</a>
+    <a href="../../QuanLyTonKHo/index.html">Tồn kho</a>
+    <div class="dropdown">
+  <a href="#" class="dropdown-toggle">Tổng kết</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../../BaocaoNK/baocao.html">Báo cáo nhập hàng</a>
+    <a href="../../baocaoDT/baocaoDT.html">Báo cáo doanh thu</a>
+  </div>
+</div>
+   <!-- DROPDOWN "QUẢN LÝ THÔNG TIN" – ĐẸP Y CHANG HÌNH BẠN GỬI -->
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Quản lý thông tin</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../../QuanLyNhanVien/index.html">Nhân viên</a>
+    <a href="../../QL_TT_NCC/QL_TT_NCC.html">Nhà cung cấp</a>
+    <a href="../../QL_TT_mon/Quan_ly_mon.html">Món</a>
+    <a href="../../QL_TT_NL/nguyenlieu.html">Nguyên liệu</a>
+    <a href="../../Quan_ly_tai_khoan/index.html">Tài khoản</a>
+    <a href="../../giaodich/giaodich.html">Lịch sử thanh toán</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Nhân viên</a>
+  <div class="dropdown-menu">
+    <!-- Quản lý lương (có submenu) -->
+    <div class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle-submenu">
+        Quản lý lương 
+        <span class="submenu-arrow">></span>
+      </a>
+      <div class="dropdown-menu submenu">
+        <a href="bc.html">Bảng công</a>
+        <a href="../Bảng lương/ql_luong.html">Bảng lương</a>
+        <a href="../Tính lương/tluong.html">Tính lương</a>
+      </div>
+    </div>
+
+    <!-- Quản lý lịch làm việc -->
+    <a href="../Lịch làm/Llam.html">Quản lý lịch làm việc</a>
+  </div>
+</div>
+  </div>
+    <!-- Main Content -->
+    <div class="main">
+        <div class="page-header">
+            <div class="left">
+                <span class="back-icon" onclick="history.back()" title="Quay lại">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+                <h1 class="page-title">Bảng công</h1>
+            </div>
+
+            <!-- Nút Chỉnh sửa (sẽ ẩn khi đang edit) -->
+            <div class="edit-btn" id="editBtn" onclick="toggleEditMode()">
+                <i class="fas fa-edit"></i>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="attendanceTable">
+                <thead>
+                    <tr>
+                        <th>MANV</th>
+                        <th>Họ tên</th>
+                        <th>Vị trí</th>
+                        <th>Điều chỉnh</th>
+                        <th>Lý do</th>
+                        <th>Tổng công</th>
+                    </tr>
+                </thead>
+                <tbody id="attendanceBody">
+                    <!-- JS sẽ tự động render -->
+                </tbody>
+            </table>
+
+            <!-- Nút Hủy + Lưu (chỉ hiện khi đang edit) -->
+            <div class="save-actions" id="saveActions" style="display:none;">
+                <button class="btn-save" onclick="showConfirmDialog()">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popup xác nhận lưu (giống bảng lương) -->
+<div class="confirm-modal" id="confirmModal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeConfirmDialog()">X</span>
+        <div class="check-icon"><i class="fas fa-check"></i></div>
+        <h2>Xác nhận lưu</h2>
+        <button class="confirm-btn" onclick="saveChanges()">Lưu</button>
+    </div>
+</div>
+<div class="modal-overlay" id="modalOverlay" onclick="closeConfirmDialog()"></div>
+
+<script src="script_bc.js"></script>
+</body>
+</html>

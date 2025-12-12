@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hóa đơn - Milano Coffee</title>
+  <style>
+    body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 20px; background: #f9f9f9; }
+    .invoice {
+      max-width: 400px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; font-size: 14px;
+    }
+    .header { margin-bottom: 20px; }
+    .header h1 { margin: 10px 0; font-size: 24px; color: #b8926e; }
+    .info { margin: 15px 0; line-height: 1.6; }
+    .info strong { color: #333; }
+    table { width: 100%; margin: 20px 0; border-collapse: collapse; }
+    th, td { padding: 8px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #f5f5f5; font-weight: 600; }
+    .total-row { font-weight: bold; font-size: 16px; }
+    .qr { margin: 30px 0; }
+    .qr img { width: 150px; height: 150px; }
+    .buttons { margin-top: 30px; display: flex; gap: 15px; justify-content: center; }
+    .btn {
+      padding: 12px 25px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold;
+      transition: 0.3s;
+    }
+    .btn-print { background: #f39c12; color: white; }
+    .btn-print:hover { background: #e67e22; }
+    .btn-close { background: #95a5a6; color: white; }
+    .btn-close:hover { background: #7f8c8d; }
+    @media print {
+      body { background: white; }
+      .buttons { display: none; }
+      .invoice { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="invoice">
+    <div class="header">
+      <h1>MILANO COFFEE</h1>
+      <div class="info">
+        <div>ĐC: 500 Trần Hưng Đạo, Đà Nẵng</div>
+        <div>SĐT: 0942 482 364</div>
+      </div>
+      <hr>
+      <h2>HÓA ĐƠN THANH TOÁN</h2>
+    </div>
+
+    <div class="info">
+      <div><strong>Mã hóa đơn:</strong> <span id="maHD">HD001</span></div>
+      <div><strong>Ngày:</strong> <span id="ngay">28/11/2025</span></div>
+      <div><strong>Giờ vào:</strong> <span id="gioVao">18:35 28/11/2025</span></div>
+      <div><strong>Giờ ra:</strong> <span id="gioRa">19:32 20/11/2025</span></div>
+      <div><strong>Số bàn:</strong> <span id="soBan">2</span></div>
+      <div><strong>Khách hàng:</strong> <span id="tenKH">Khách lẻ</span></div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Tên món</th><th>Đ.Giá</th><th>SL</th><th>Thành tiền</th></tr>
+      </thead>
+      <tbody id="chiTietMon"></tbody>
+    </table>
+
+    <div class="info total-row">
+      <div>Tổng thành tiền: <strong id="tongThanhTien">0đ</strong></div>
+      <div>VAT(0%): <strong>0đ</strong></div>
+      <div>Khuyến mãi: <strong id="khuyenMai">0đ</strong></div>
+      <div><strong>Tổng cộng:</strong> <strong id="tongCong">0đ</strong></div>
+    </div>
+
+    <div class="qr">
+      <img id="qrCode" src="" alt="QR Code">
+    </div>
+
+    <div class="buttons">
+      <button class="btn btn-print" onclick="xacNhanIn()">In hóa đơn</button>
+      <!-- NÚT HÓA ĐƠN ĐIỆN TỬ -->
+<button class="btn btn-electronic" onclick="moHoaDonDienTu()">H.đơn điện tử</button>
+
+<!-- POPUP HÓA ĐƠN ĐIỆN TỬ -->
+<div id="popupHoaDonDT" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
+  <div style="background:white; width:90%; max-width:420px; border-radius:20px; padding:25px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+    <h2 style="margin:0 0 20px; color:#b8926e; font-size:24px;">Hóa đơn điện tử</h2>
+    
+    <div style="margin-bottom:15px; text-align:left;">
+      <label style="display:block; margin-bottom:8px; font-weight:bold;">Email KH:</label>
+      <input type="email" id="emailKH" placeholder="nhập email khách hàng" style="width:80%; padding:12px; border:2px solid #ddd; border-radius:12px; font-size:16px;">
+    </div>
+    
+    <div style="margin-bottom:25px; text-align:left;">
+      <label style="display:block; margin-bottom:8px; font-weight:bold;">SĐT KH:</label>
+      <input type="text" id="sdtKH" placeholder="nhập số điện thoại" style="width:80%; padding:12px; border:2px solid #ddd; border-radius:12px; font-size:16px;">
+    </div>
+    
+    <div style="display:flex; gap:15px; justify-content:center;">
+      <button onclick="guiHoaDonDT()" style="flex:1; padding:14px; background:#b8926e; color:white; border:none; border-radius:50px; font-size:16px; font-weight:bold; cursor:pointer;">
+        Gửi
+      </button>
+      <button onclick="dongPopupDT()" style="flex:1; padding:14px; background:#ccc; color:#333; border:none; border-radius:50px; font-size:16px; font-weight:bold; cursor:pointer;">
+        Đóng
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Mở popup hóa đơn điện tử
+function moHoaDonDienTu() {
+    document.getElementById("popupHoaDonDT").style.display = "flex";
+}
+
+// Đóng popup
+function dongPopupDT() {
+    document.getElementById("popupHoaDonDT").style.display = "none";
+    document.getElementById("emailKH").value = "";
+    document.getElementById("sdtKH").value = "";
+}
+
+// Gửi hóa đơn điện tử
+function guiHoaDonDT() {
+    const email = document.getElementById("emailKH").value.trim();
+    const sdt = document.getElementById("sdtKH").value.trim();
+
+    if (email === "" && sdt === "") {
+        alert("Vui lòng nhập ít nhất Email hoặc SĐT khách hàng!");
+        return;
+    }
+
+    // Demo: chỉ thông báo thành công
+    alert(`Hóa đơn điện tử đã được gửi thành công!\nEmail: ${email || "không có"}\nSĐT: ${sdt || "không có"}`);
+    
+    dongPopupDT();
+}
+</script>
+      <button class="btn btn-close" onclick="window.close()">Đóng</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode.js@1.0.0/qrcode.min.js"></script>
+  <script>
+    // Lấy dữ liệu từ URL (do trang bán hàng truyền qua)
+    const params = new URLSearchParams(window.location.search);
+    const orderData = JSON.parse(decodeURIComponent(params.get("data")));
+
+    // Điền thông tin
+    document.getElementById("maHD").textContent = orderData.maHD || "HD" + Date.now();
+    document.getElementById("ngay").textContent = new Date().toLocaleDateString("vi-VN");
+    document.getElementById("gioVao").textContent = orderData.gioVao || "-";
+    document.getElementById("gioRa").textContent = new Date().toLocaleString("vi-VN");
+    document.getElementById("soBan").textContent = orderData.soBan || "-";
+    document.getElementById("tenKH").textContent = orderData.tenKH || "Khách lẻ";
+
+    // Chi tiết món
+    const tbody = document.getElementById("chiTietMon");
+    let tongThanhTien = 0;
+    orderData.items.forEach(item => {
+      const thanhTien = item.gia * item.soLuong;
+      tongThanhTien += thanhTien;
+      tbody.innerHTML += `
+        <tr>
+          <td>${item.ten}</td>
+          <td>${item.gia.toLocaleString()}đ</td>
+          <td>${item.soLuong}</td>
+          <td>${thanhTien.toLocaleString()}đ</td>
+        </tr>`;
+    });
+
+    const khuyenMai = orderData.khuyenMai || 0;
+    const tongCong = tongThanhTien - khuyenMai;
+
+    document.getElementById("tongThanhTien").textContent = tongThanhTien.toLocaleString() + "đ";
+    document.getElementById("khuyenMai").textContent = khuyenMai.toLocaleString() + "đ";
+    document.getElementById("tongCong").textContent = tongCong.toLocaleString() + "đ";
+
+    // Tạo QR code (link hóa đơn hoặc mã đơn)
+    new QRCode(document.getElementById("qrCode"), {
+      text: window.location.href,
+      width: 150,
+      height: 150,
+      colorDark: "#000",
+      colorLight: "#fff"
+    });
+function xacNhanIn() {
+    // Báo cho trang bán hàng biết: đã in rồi!
+    localStorage.setItem("daInHoaDon", "true");
+    // TỰ ĐỘNG ĐÓNG TAB SAU KHI IN XONG (demo thì chỉ cần 1s là đủ)
+    setTimeout(() => {
+        alert("In hóa đơn thành công! Đang đóng...");
+        window.close(); // ĐÓNG TAB TỰ ĐỘNG
+    }, 800);
+}
+
+  </script>
+</body>
+</html>

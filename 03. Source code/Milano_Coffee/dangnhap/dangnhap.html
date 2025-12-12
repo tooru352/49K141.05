@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Milano Coffee - Đăng nhập</title>
+    <link rel="stylesheet" href="dangnhap.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="login-container">
+      <!-- PHẦN ẢNH TRÁI - SLIDESHOW TỰ ĐỘNG -->
+      <div class="image-section">
+        <div class="slides">
+          <img
+            src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+            alt="Coffee 1"
+            class="slide active"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1512568400610-62da28bc8a13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+            alt="Coffee 2"
+            class="slide"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+            alt="Coffee 3"
+            class="slide"
+          />
+          <img
+            src="https://ticotravel.com.vn/wp-content/uploads/2021/05/ca-phe.jpg"
+            alt="Coffee 4"
+            class="slide"
+          />
+          <img
+            src="https://amthanhhay.com.vn/wp-content/uploads/2024/09/thom-cau-coffee-15.jpg"
+            alt="Coffee 5"
+            class="slide"
+          />
+        </div>
+        <div class="dots"></div>
+      </div>
+
+      <!-- PHẦN FORM ĐĂNG NHẬP -->
+      <div class="form-section">
+        <div class="logo">
+          <h1>MILANO COFFEE</h1>
+        </div>
+
+        <h2>Đăng nhập</h2>
+        <!-- Thông báo lỗi (ẩn mặc định) -->
+        <div class="error-message" id="errorMessage">
+          Tài khoản hoặc mật khẩu không đúng!
+        </div>
+        <form id="loginForm">
+          <div class="input-group">
+            <input type="text" id="username" required />
+            <label for="username">Tên đăng nhập</label>
+          </div>
+
+          <div class="input-group">
+            <input type="password" id="password" required />
+            <label for="password">Mật khẩu</label>
+          </div>
+
+          <button type="submit">Đăng nhập</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="dangnhap.js"></script>
+  </body>
+</html>

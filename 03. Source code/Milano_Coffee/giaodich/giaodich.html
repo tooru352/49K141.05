@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milano Coffee - Bán hàng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Jacques+Francois+Shadow&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="giaodichj.css"> 
+</head>
+<body>
+    <div class="container">
+  <!-- Header + Taskbar giống các trang khác -->
+  <div class="header">
+    <div class="logo-section">
+      <img class="logo" src="../Quan_ly_ban_hang/image/milano.jpg" alt="Logo">
+      <div class="logo-text">MILANO COFFEE</div>
+    </div>
+    <!-- Thay toàn bộ phần .user-area bằng đoạn này -->
+    <div class="user-area" onclick="window.location.href='../Thong_tin_ca_nhan/ttcanhan.html'">
+      <!-- Trong .user-area -->
+      <span class="user-id">
+        <script>
+          const user = JSON.parse(localStorage.getItem("currentUser"));
+          document.write(user ? user.username : "NV0001");
+        </script>
+      </span>
+      <img class="user-avatar" src="../Quan_ly_ban_hang/image/avatar.jpg" alt="Avatar">
+    </div>
+  </div>
+
+  <!-- TASKBAR CÓ DROPDOWN ĐẸP Y CHANG HÌNH -->
+<div class="taskbar">
+  <a href="../Quan_ly_ban_hang/index.html">Bán hàng</a>
+
+    <a href="../nhaphang/nhaphang.html" >Nhập hàng</a>
+    <a href="../QuanLyTonKHo/index.html">Tồn kho</a>
+    <div class="dropdown">
+  <a href="#" class="dropdown-toggle">Tổng kết</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../BaocaoNK/baocao.html">Báo cáo nhập hàng</a>
+    <a href="../baocaoDT/baocaoDT.html">Báo cáo doanh thu</a>
+  </div>
+</div>
+   <!-- DROPDOWN "QUẢN LÝ THÔNG TIN" – ĐẸP Y CHANG HÌNH BẠN GỬI -->
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Quản lý thông tin</a>
+  <div class="dropdown-menu info-menu">
+    <a href="../QuanLyNhanVien/index.html">Nhân viên</a>
+    <a href="../QL_TT_NCC/QL_TT_NCC.html">Nhà cung cấp</a>
+    <a href="../QL_TT_mon/Quan_ly_mon.html">Món</a>
+    <a href="../QL_TT_NL/nguyenlieu.html">Nguyên liệu</a>
+    <a href="../Quan_ly_tai_khoan/index.html">Tài khoản</a>
+    <a href="../giaodich/giaodich.html">Lịch sử thanh toán</a>
+  </div>
+</div>
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle">Nhân viên</a>
+  <div class="dropdown-menu">
+    <!-- Quản lý lương (có submenu) -->
+    <div class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle-submenu">
+        Quản lý lương 
+        <span class="submenu-arrow">></span>
+      </a>
+      <div class="dropdown-menu submenu">
+        <a href="../ql_luong/Bảng công/bc.html">Bảng công</a>
+        <a href="../ql_luong/Bảng lương/ql_luong.html">Bảng lương</a>
+        <a href="../ql_luong/Tính lương/tluong.html">Tính lương</a>
+      </div>
+    </div>
+
+    <!-- Quản lý lịch làm việc -->
+    <a href="../ql_luong/Lịch làm/Llam.html">Quản lý lịch làm việc</a>
+  </div>
+</div>
+  </div>
+  <!-- Icon quay lại -->
+      <div class="back-to-dashboard" onclick="window.location.href='../Quan_ly_ban_hang/index.html'" title="Quay lại trang Bán hàng">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="#c8a165" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <h1 style="text-align:center;color:#c8a165;margin-bottom: 30px;margin-top:-50px;">LỊCH SỬ GIAO DỊCH</h1>
+</div>          
+        <!-- Main Content -->
+        <div class="main">
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="left-tools">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm">
+                    </div>
+
+                    <!-- Custom Date Picker - giống hệt Nhập hàng -->
+                    <div class="custom-date-picker">
+                        <input type="text" id="dateRangeInput" class="date-filter" readonly placeholder="Tùy chọn...">
+                        <div class="datepicker-dropdown" id="datepickerDropdown">
+                            <div class="calendars">
+                                <div class="calendar" id="calendarLeft"></div>
+                                <div class="calendar" id="calendarRight"></div>
+                            </div>
+                            <div class="datepicker-actions">
+                                <button id="btnClearDate">Xóa</button>
+                                <button id="btnApplyDate">Áp dụng</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-apply" id="btnApplyFilter">Áp dụng</button>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã hóa đơn</th>
+                            <th>Mã nhân viên</th>
+                            <th>Thời gian</th>
+                            <th>Tổng tiền</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="hoaDonBody"></tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button>‹</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>...</button>
+                <button>›</button>
+            </div>
+        </div>
+    </div>
+<!-- Popup Chi Tiết Hóa Đơn (XEM - Chỉ đọc) -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-detail">
+            <div class="popup-header">
+                <button class="btn-back" onclick="closePopup()">←</button>
+                <h2 id="popupTitle">HD089</h2>
+                <button class="btn-close" onclick="closePopup()">×</button>
+            </div>
+            
+            <div class="popup-info">
+                <div class="info-row">
+                    <span class="info-label" id="popupMaNV">NV001</span>
+                    <span class="info-separator">|</span>
+                    <span class="info-label" id="popupThoiGian">10:10 10/09/2025</span>
+                    <span class="info-separator">|</span>
+                    <span class="info-label" id="popupBan">BAN-1</span>
+                </div>
+            </div>
+
+            <div class="popup-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Đơn giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody id="popupTableBody">
+                        <!-- Nội dung sẽ được load bằng JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="popup-footer">
+                <div class="footer-row">
+                    <span>Khuyến mãi</span>
+                    <span id="popupKhuyenMai">0</span>
+                </div>
+                <div class="footer-row">
+                    <span>Thuế</span>
+                    <span id="popupThue">0</span>
+                </div>
+                <div class="footer-row total">
+                    <span>TỔNG TIỀN</span>
+                    <span id="popupTongTien">61,000đ</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Sửa Hóa Đơn -->
+   <div class="popup-overlay" id="popupEditOverlay">
+    <div class="popup-detail popup-edit">
+        <div class="popup-header">
+            <button class="btn-back" onclick="closeEditPopup()">←</button>
+            <h2>Sửa <span id="popupEditTitle">HD089</span></h2>
+            <button class="btn-close" onclick="closeEditPopup()">×</button>
+        </div>
+        
+        <!-- Thông tin chung - có thể sửa -->
+        <div class="popup-info edit-mode">
+            <div class="info-row">
+                <select id="editMaNV" class="edit-select"></select>
+                <span class="info-separator">|</span>
+                <input type="text" id="editThoiGian" class="edit-input" placeholder="HH:mm dd/MM/yyyy">
+                <span class="info-separator">|</span>
+                <select id="editBan" class="edit-select">
+                    <option value="BAN-1">BAN-1</option>
+                    <option value="BAN-2">BAN-2</option>
+                    <option value="BAN-3">BAN-3</option>
+                    <option value="BAN-4">BAN-4</option>
+                    <option value="BAN-5">BAN-5</option>
+                    <option value="BAN-6">BAN-6</option>
+                    <option value="MANG-V">Mang về</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Bảng sản phẩm - có thể sửa từng dòng -->
+        <div class="popup-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="popupEditTableBody"></tbody>
+            </table>
+            <button class="btn-add-product" onclick="themSanPhamMoi()">+ Thêm sản phẩm</button>
+        </div>
+
+        <!-- Footer -->
+        <div class="popup-footer">
+            <div class="footer-row">
+                <span>Khuyến mãi</span>
+                <input type="number" id="editKhuyenMai" class="edit-input-small" value="0" min="0">đ
+            </div>
+            <div class="footer-row">
+                <span>Thuế</span>
+                <input type="number" id="editThue" class="edit-input-small" value="0" min="0">đ
+            </div>
+            <div class="footer-row total">
+                <span>TỔNG TIỀN</span>
+                <span id="popupEditTongTien">0đ</span>
+            </div>
+        </div>
+
+        <!-- Nút hành động -->
+        <div class="popup-actions">
+            <button class="btn-save" onclick="luuChinhSua()">Lưu thay đổi</button>
+        </div>
+    </div>
+</div>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+
+<script>
+    // ==================== LỌC DỮ LIỆU ====================
+function applyFilters() {
+    loadDanhSachHoaDon();
+}
+// ==================== BIẾN TOÀN CỤC ====================
+let startDate = null;
+let endDate = null;
+let currentMaHD = null; // Lưu mã hóa đơn hiện tại trong popup
+let currentHoaDon = null; // Lưu toàn bộ dữ liệu hóa đơn đang chỉnh sửa
+let editingSanPham = []; // Danh sách sản phẩm đang chỉnh sửa
+
+// ==================== LOAD TRANG ====================
+document.addEventListener("DOMContentLoaded", function () {
+    // Khởi tạo dữ liệu mẫu nếu chưa có
+    initSampleData();
+    
+    // Load danh sách hóa đơn
+    loadDanhSachHoaDon();
+    
+    // Khởi tạo date picker
+    initDatePicker();
+
+    // Sự kiện tìm kiếm và lọc
+    document.getElementById("searchInput").addEventListener("input", applyFilters);
+    document.getElementById("btnApplyFilter").addEventListener("click", applyFilters);
+    document.getElementById("dateRangeInput").addEventListener("click", toggleDatePicker);
+    
+    // Sự kiện đóng popup khi click overlay
+    document.getElementById('popupOverlay').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closePopup();
+        }
+    });
+    
+    document.getElementById('popupEditOverlay').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeEditPopup();
+        }
+    });
+});
+
+// ==================== KHỞI TẠO DỮ LIỆU MẪU ====================
+function initSampleData() {
+    if (!localStorage.getItem('danhSachHoaDon')) {
+        const sample = [
+            { 
+                maHoaDon: "HD091", 
+                maNhanVien: "NV002", 
+                thoiGian: "9:30 20/09/2025", 
+                tongTien: 80000,
+                ban: "BAN-2",
+                khuyenMai: 0,
+                thue: 0,
+                sanPham: [
+                    { stt: 1, ten: 'Trà sữa trân châu', donGia: 35000, soLuong: 1, thanhTien: 35000 },
+                    { stt: 2, ten: 'Bánh flan', donGia: 15000, soLuong: 3, thanhTien: 45000 }
+                ]
+            },
+            { 
+                maHoaDon: "HD089", 
+                maNhanVien: "NV001", 
+                thoiGian: "10:10 10/09/2025", 
+                tongTien: 61000,
+                ban: "BAN-1",
+                khuyenMai: 0,
+                thue: 0,
+                sanPham: [
+                    { stt: 1, ten: 'Cà phê sữa Milano', donGia: 18000, soLuong: 1, thanhTien: 18000 },
+                    { stt: 2, ten: 'Bạc xỉu muối', donGia: 25000, soLuong: 1, thanhTien: 25000 },
+                    { stt: 3, ten: 'Bánh mì', donGia: 18000, soLuong: 1, thanhTien: 18000 }
+                ]
+            },
+            { 
+                maHoaDon: "HD088", 
+                maNhanVien: "NV003", 
+                thoiGian: "14:20 09/09/2025", 
+                tongTien: 125000,
+                ban: "BAN-5",
+                khuyenMai: 0,
+                thue: 0,
+                sanPham: [
+                    { stt: 1, ten: 'Cà phê đen', donGia: 15000, soLuong: 2, thanhTien: 30000 },
+                    { stt: 2, ten: 'Sinh tố bơ', donGia: 35000, soLuong: 2, thanhTien: 70000 },
+                    { stt: 3, ten: 'Bánh ngọt', donGia: 25000, soLuong: 1, thanhTien: 25000 }
+                ]
+            },
+            { 
+                maHoaDon: "HD087", 
+                maNhanVien: "NV001", 
+                thoiGian: "16:45 08/09/2025", 
+                tongTien: 52000,
+                ban: "BAN-3",
+                khuyenMai: 0,
+                thue: 0,
+                sanPham: [
+                    { stt: 1, ten: 'Cappuccino', donGia: 22000, soLuong: 2, thanhTien: 44000 },
+                    { stt: 2, ten: 'Cookies', donGia: 8000, soLuong: 1, thanhTien: 8000 }
+                ]
+            }
+        ];
+        localStorage.setItem('danhSachHoaDon', JSON.stringify(sample));
+    }
+}
+
+// ==================== LỌC DỮ LIỆU ====================
+function applyFilters() {
+    loadDanhSachHoaDon();
+}
+
+// ==================== LOAD DANH SÁCH HÓA ĐƠN ====================
+function loadDanhSachHoaDon() {
+    const tbody = document.getElementById("hoaDonBody");
+    let dsHoaDon = JSON.parse(localStorage.getItem('danhSachHoaDon') || '[]');
+
+    const query = document.getElementById("searchInput").value.trim().toLowerCase();
+
+    let filtered = dsHoaDon.filter(hd => {
+        const matchSearch = hd.maHoaDon.toLowerCase().includes(query) || 
+                           hd.maNhanVien.toLowerCase().includes(query);
+        
+        if (!startDate || !endDate) return matchSearch;
+        
+        const date = parseDateTime(hd.thoiGian);
+        const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), 0, 0, 0);
+        const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59);
+        
+        return matchSearch && date >= start && date <= end;
+    });
+
+    filtered.sort((a, b) => parseDateTime(b.thoiGian) - parseDateTime(a.thoiGian));
+
+    tbody.innerHTML = '';
+
+    if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px; color:#999;">
+            Chưa có hóa đơn nào phù hợp
+        </td></tr>`;
+        return;
+    }
+
+    filtered.forEach(hd => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${hd.maHoaDon}</td>
+            <td>${hd.maNhanVien}</td>
+            <td>${hd.thoiGian}</td>
+            <td>${hd.tongTien.toLocaleString('vi-VN')}đ</td>
+            <td class="actions">
+                <button class="view-btn" onclick="xemChiTiet('${hd.maHoaDon}')">👁</button>
+                <button class="edit-btn" onclick="suaHoaDon('${hd.maHoaDon}')">✏</button>
+                <button class="delete-btn" onclick="xoaHoaDon('${hd.maHoaDon}', this)">🗑</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// ==================== POPUP - XEM CHI TIẾT ====================
+function xemChiTiet(maHD) {
+    currentMaHD = maHD;
+    const ds = JSON.parse(localStorage.getItem('danhSachHoaDon') || '[]');
+    const hoaDon = ds.find(hd => hd.maHoaDon === maHD);
+    
+    if (!hoaDon) {
+        alert('Không tìm thấy hóa đơn!');
+        return;
+    }
+
+    // Cập nhật thông tin header
+    document.getElementById('popupTitle').textContent = hoaDon.maHoaDon;
+    document.getElementById('popupMaNV').textContent = hoaDon.maNhanVien;
+    document.getElementById('popupThoiGian').textContent = hoaDon.thoiGian;
+    document.getElementById('popupBan').textContent = hoaDon.ban || 'BAN-1';
+
+    // Load bảng sản phẩm
+    const sanPham = hoaDon.sanPham || [];
+    const tbody = document.getElementById('popupTableBody');
+    tbody.innerHTML = sanPham.map(sp => `
+        <tr>
+            <td>${sp.stt}</td>
+            <td>${sp.ten}</td>
+            <td>${sp.donGia.toLocaleString('vi-VN')}đ</td>
+            <td>${sp.soLuong}</td>
+            <td>${sp.thanhTien.toLocaleString('vi-VN')}đ</td>
+        </tr>
+    `).join('');
+
+    // Cập nhật footer
+    document.getElementById('popupKhuyenMai').textContent = hoaDon.khuyenMai || 0;
+    document.getElementById('popupThue').textContent = hoaDon.thue || 0;
+    document.getElementById('popupTongTien').textContent = hoaDon.tongTien.toLocaleString('vi-VN') + 'đ';
+
+    // Hiển thị popup
+    document.getElementById('popupOverlay').classList.add('show');
+}
+
+function closePopup() {
+    document.getElementById('popupOverlay').classList.remove('show');
+    currentMaHD = null;
+}
+
+// ==================== POPUP CHỈNH SỬA ====================
+function suaHoaDon(maHD) {
+    currentMaHD = maHD;
+    const ds = JSON.parse(localStorage.getItem('danhSachHoaDon') || '[]');
+    currentHoaDon = ds.find(hd => hd.maHoaDon === maHD);
+    if (!currentHoaDon) return alert('Không tìm thấy hóa đơn!');
+
+    // 1. Load danh sách nhân viên vào <select>
+    const selectNV = document.getElementById('editMaNV');
+    selectNV.innerHTML = '<option value="">-- Chọn nhân viên --</option>';
+
+    // Nếu bạn có trang quản lý nhân viên thì lấy từ đó, không thì dùng mẫu
+    let dsNhanVien = JSON.parse(localStorage.getItem('danhSachNhanVien') || '[]');
+    if (dsNhanVien.length === 0) {
+        dsNhanVien = [
+            { maNV: "NV001", hoTen: "Nguyễn Văn A" },
+            { maNV: "NV002", hoTen: "Trần Thị B" },
+            { maNV: "NV003", hoTen: "Lê Văn C" }
+        ];
+    }
+    dsNhanVien.forEach(nv => {
+        const opt = document.createElement('option');
+        opt.value = nv.maNV;
+        opt.textContent = `${nv.maNV} - ${nv.hoTen}`;
+        selectNV.appendChild(opt);
+    });
+
+    // 2. Điền dữ liệu vào các ô sửa (đây là chỗ bạn sai trước đó!)
+    document.getElementById('popupEditTitle').textContent = currentHoaDon.maHoaDon;
+    document.getElementById('editMaNV').value = currentHoaDon.maNhanVien;           // Dùng .value
+    document.getElementById('editThoiGian').value = currentHoaDon.thoiGian;         // Dùng .value
+    document.getElementById('editBan').value = currentHoaDon.ban || 'BAN-1';      // Dùng .value
+    document.getElementById('editKhuyenMai').value = currentHoaDon.khuyenMai || 0;  // Dùng .value
+    document.getElementById('editThue').value = currentHoaDon.thue || 0;            // Dùng .value
+
+    // 3. Clone và render bảng sản phẩm
+    editingSanPham = JSON.parse(JSON.stringify(currentHoaDon.sanPham || []));
+    renderEditTable();
+
+    // 4. Hiển thị popup
+    document.getElementById('popupEditOverlay').classList.add('show');
+}
+
+// Render bảng sản phẩm trong popup sửa
+function renderEditTable() {
+    const tbody = document.getElementById('popupEditTableBody');
+    tbody.innerHTML = editingSanPham.map((sp, i) => `
+        <tr>
+            <td>${i + 1}</td>
+            <td><input type="text" class="edit-sp-input" value="${sp.ten}" onchange="capNhatSP(${i},'ten',this.value)"></td>
+            <td><input type="number" class="edit-sp-input" value="${sp.donGia}" onchange="capNhatSP(${i},'donGia',this.value)"></td>
+            <td><input type="number" class="edit-sp-input" value="${sp.soLuong}" min="1" onchange="capNhatSP(${i},'soLuong',this.value)"></td>
+            <td>${(sp.donGia * sp.soLuong).toLocaleString('vi-VN')}đ</td>
+            <td><button type="button" onclick="xoaSanPham(${i})">Xóa</button></td>
+        </tr>
+    `).join('');
+
+    tinhTongTienEdit(); // Cập nhật tổng tiền
+}
+
+function capNhatSP(i, field, val) {
+    if (field === 'donGia' || field === 'soLuong') {
+        editingSanPham[i][field] = parseFloat(val) || 0;
+    } else {
+        editingSanPham[i][field] = val;
+    }
+    editingSanPham[i].thanhTien = editingSanPham[i].donGia * editingSanPham[i].soLuong;
+    renderEditTable();
+}
+
+function xoaSanPham(i) {
+    if (confirm('Xóa sản phẩm này?')) {
+        editingSanPham.splice(i, 1);
+        renderEditTable();
+    }
+}
+
+function themSanPhamMoi() {
+    editingSanPham.push({ ten: 'Sản phẩm mới', donGia: 0, soLuong: 1, thanhTien: 0 });
+    renderEditTable();
+}
+
+function tinhTongTienEdit() {
+    const tongSP = editingSanPham.reduce((t, sp) => t + sp.thanhTien, 0);
+    const km = parseFloat(document.getElementById('editKhuyenMai').value) || 0;
+    const thue = parseFloat(document.getElementById('editThue').value) || 0;
+    const tong = tongSP - km + thue;
+    document.getElementById('popupEditTongTien').textContent = tong.toLocaleString('vi-VN') + 'đ';
+}
+
+function closeEditPopup() {
+    document.getElementById('popupEditOverlay').classList.remove('show');
+    currentMaHD = currentHoaDon = editingSanPham = null;
+}
+
+// ==================== LƯU SỬA ====================
+function luuChinhSua() {
+    if (!confirm('Lưu các thay đổi?')) return;
+
+    // Cập nhật từ các input
+    currentHoaDon.maNhanVien = document.getElementById('editMaNV').value;
+    currentHoaDon.thoiGian = document.getElementById('editThoiGian').value.trim();
+    currentHoaDon.ban = document.getElementById('editBan').value;
+    currentHoaDon.khuyenMai = parseFloat(document.getElementById('editKhuyenMai').value) || 0;
+    currentHoaDon.thue = parseFloat(document.getElementById('editThue').value) || 0;
+    currentHoaDon.sanPham = editingSanPham;
+
+    // Tính lại tổng tiền
+    currentHoaDon.tongTien = editingSanPham.reduce((t, sp) => t + sp.thanhTien, 0) 
+                              - currentHoaDon.khuyenMai + currentHoaDon.thue;
+
+    // Lưu vào localStorage
+    let ds = JSON.parse(localStorage.getItem('danhSachHoaDon'));
+    const idx = ds.findIndex(x => x.maHoaDon === currentMaHD);
+    ds[idx] = currentHoaDon;
+    localStorage.setItem('danhSachHoaDon', JSON.stringify(ds));
+
+    alert('Đã lưu thành công!');
+    closeEditPopup();
+    loadDanhSachHoaDon();
+}
+
+// ==================== SỬA / XÓA HÓA ĐƠN ====================
+function xoaHoaDon(maHD, btn) {
+    if (confirm(`Xóa hóa đơn ${maHD}?`)) {
+        let ds = JSON.parse(localStorage.getItem('danhSachHoaDon') || '[]');
+        ds = ds.filter(hd => hd.maHoaDon !== maHD);
+        localStorage.setItem('danhSachHoaDon', JSON.stringify(ds));
+        btn.closest('tr').remove();
+    }
+}
+
+// ==================== DATE PICKER ====================
+function initDatePicker() {
+    const today = new Date();
+    renderCalendar(today.getFullYear(), today.getMonth(), 'calendarLeft');
+    renderCalendar(today.getFullYear(), today.getMonth() + 1, 'calendarRight');
+
+    document.getElementById("btnApplyDate").addEventListener("click", () => {
+        updateDateRangeInput();
+        document.getElementById("datepickerDropdown").classList.remove("show");
+        applyFilters();
+    });
+
+    document.getElementById("btnClearDate").addEventListener("click", () => {
+        startDate = endDate = null;
+        updateDateRangeInput();
+        document.getElementById("datepickerDropdown").classList.remove("show");
+        applyFilters();
+    });
+}
+
+function toggleDatePicker() {
+    document.getElementById("datepickerDropdown").classList.toggle("show");
+}
+
+function updateDateRangeInput() {
+    if (startDate && endDate) {
+        document.getElementById("dateRangeInput").value = `${formatDate(startDate)} - ${formatDate(endDate)}`;
+    } else {
+        document.getElementById("dateRangeInput").value = "";
+    }
+}
+
+function renderCalendar(year, month, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    
+    const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
+                       "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+    
+    // Header tháng
+    const header = document.createElement('div');
+    header.className = 'month-header';
+    header.innerHTML = `
+        <button class="prev-month" onclick="changeMonth(-1, '${containerId}')">&lt;</button>
+        <span>${monthNames[month]} ${year}</span>
+        <button class="next-month" onclick="changeMonth(1, '${containerId}')">&gt;</button>
+    `;
+    container.appendChild(header);
+    
+    // Thứ
+    const weekdays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+    const weekRow = document.createElement('div');
+    weekRow.className = 'weekdays';
+    weekRow.innerHTML = weekdays.map(d => `<div>${d}</div>`).join('');
+    container.appendChild(weekRow);
+    
+    // Ngày
+    const daysContainer = document.createElement('div');
+    daysContainer.className = 'days-grid';
+    
+    const firstDay = new Date(year, month, 1).getDay();
+    const offset = firstDay === 0 ? 6 : firstDay - 1;
+    
+    // Ô trống
+    for (let i = 0; i < offset; i++) {
+        daysContainer.innerHTML += '<div class="day empty"></div>';
+    }
+    
+    // Ngày trong tháng
+    const lastDate = new Date(year, month + 1, 0).getDate();
+    for (let d = 1; d <= lastDate; d++) {
+        const date = new Date(year, month, d);
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'day';
+        dayDiv.textContent = d;
+        dayDiv.dataset.date = date.toISOString().split('T')[0];
+        dayDiv.onclick = () => selectDate(date);
+        
+        // Highlight nếu đã chọn
+        if (startDate && date.toDateString() === startDate.toDateString()) {
+            dayDiv.classList.add('selected');
+        }
+        if (endDate && date.toDateString() === endDate.toDateString()) {
+            dayDiv.classList.add('selected');
+        }
+        if (startDate && endDate && date > startDate && date < endDate) {
+            dayDiv.classList.add('in-range');
+        }
+        
+        daysContainer.appendChild(dayDiv);
+    }
+    
+    container.appendChild(daysContainer);
+}
+
+function selectDate(date) {
+    if (!startDate || endDate) {
+        startDate = date;
+        endDate = null;
+    } else {
+        if (date < startDate) {
+            endDate = startDate;
+            startDate = date;
+        } else {
+            endDate = date;
+        }
+    }
+    
+    // Re-render cả 2 calendar
+    const today = new Date();
+    renderCalendar(today.getFullYear(), today.getMonth(), 'calendarLeft');
+    renderCalendar(today.getFullYear(), today.getMonth() + 1, 'calendarRight');
+}
+
+function changeMonth(delta, containerId) {
+    // Logic chuyển tháng (có thể cải thiện thêm)
+}
+
+// ==================== HELPER FUNCTIONS ====================
+function parseDateTime(str) {
+    const parts = str.match(/(\d{1,2}):(\d{2}) (\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if (!parts) return new Date();
+    return new Date(parts[5], parts[4]-1, parts[3], parts[1], parts[2]);
+}
+
+function formatDate(date) {
+    return `${date.getDate().toString().padStart(2,'0')}/${(date.getMonth()+1).toString().padStart(2,'0')}/${date.getFullYear()}`;
+}
+</script>
+</body>
+</html>
